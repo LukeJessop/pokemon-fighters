@@ -1,1 +1,27 @@
+.master-container{
+    display: flex;
+    flex-direction: row;
 
+}
+
+.side-nav-bar{
+    width: 250px;
+    height: 100vh;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid black;
+    border-radius: 10%;
+    padding-right: 10px;
+}
+
+.page-container{
+    width: calc(100vw - 250px);
+}
+
+
+#btn{
+    margin: 5px;
+    height: 50px;
+}
