@@ -3,10 +3,12 @@ import './Fighting/fighting.css'
 import './Gym/gym.css'
 import './Hospital/hospital.css'
 import './Pokemon/pokemon.css'
+import './Auth/auth.css'
 import Pokemon from './Pokemon/Pokemon'
 import Hospital from './Hospital/Hospital'
 import Gym from './Gym/Gym'
 import Fighting from './Fighting/Fighting'
+import Auth from './Auth/Auth'
 import {useEffect, useState} from 'react'
 import axios from 'axios';
 
@@ -28,7 +30,8 @@ function App() {
           health: 100,
           damage: 10,
           xp: 0,
-          level: 1
+          level: 1,
+          owner: ''
         })
       }
       setPokeArr(customPokemonArr)
@@ -36,11 +39,12 @@ function App() {
   },[])
 
   return (
-    <div className='master-container'>
+    <div className='master-container font-link'>
       <div className='side-nav-bar'>{/*these buttons are the navigation system that changes state when each button is clicked*/}
-        <button id='btn' onClick={() => setPage('Gym')}>Gym</button> 
-        <button id='btn' onClick={() => setPage('Fighting')}>Fighting</button>
-        <button id='btn' onClick={() => setPage('Hospital')}>Hospital</button>
+        <Auth/>
+        <button id='btn' className='font-link' onClick={() => setPage('Gym')}>Gym</button> 
+        <button id='btn' className='font-link' onClick={() => setPage('Fighting')}>Fighting</button>
+        <button id='btn' className='font-link' onClick={() => setPage('Hospital')}>Hospital</button>
       </div>
       <div className='page-container'> {/*this is where the actual pages display, i pass pokeArr down in props to each one.*/}
         {page === 'Gym' ? <Gym pokemon={pokeArr}/> : null}
