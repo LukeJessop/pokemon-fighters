@@ -1,34 +1,44 @@
-require('dotenv').config()
-const express = require('express')
-const massive = require('massive')
-const session = require('express-session')
-const app = express()
-const {PORT, SESSION_SECRET, DATABASE_URL} = process.env
+require("dotenv").config();
+const express = require("express");
+const massive = require("massive");
+const session = require("express-session");
+const ctrl = require('./controller')
+const app = express();
+const { SERVER_PORT, SESSION_SECRET, DATABASE_URL } = process.env;
 
-app.use(express.json())
+app.use(express.json());
 
-app.use(session({
+
+
+app.use(
+  session({
     resave: false,
     saveUninitialized: true,
     secret: SESSION_SECRET,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}))
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
 
-//use masive here if i end up wanting to connect a database to save player information
 massive({
-    connectionString: DATABASE_URL,
-    ssl:{
-        rejectUnauthorized: false
-    }
-}).then((db)=>{
-    app.set('db',db)
-    console.log('database up!')
-}).catch((err) => console.log(err))
-//middleware vv
+  connectionString: DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+})
+  .then((db) => {
+    app.set("db", db);
+    console.log("database up!");
+  })
+  .catch((err) => console.log(err));
 
+
+//middleware vv
+app.post('/auth/login', ctrl.login)
+app.post('/auth/register', ctrl.register)
 //middleware ^^
 
-//
-app.listen(PORT, console.log(`You are on Port: ${PORT} `))
+let port = process.env.PORT || Number(SERVER_PORT) + 1;
+
+app.listen(port, console.log(`You are on Port: ${port} `));
