@@ -6,21 +6,29 @@
 .side-nav-bar{
     width: 250px;
     height: 100vh;
-    margin-top: 10px;
     display: flex;
+    padding: 10px;
+    background-color: blue;
+    top: 0px;
+    position: sticky;
+}
+.button-container{
+    display: flex;
+    width: 100%;
     flex-direction: column;
-    justify-content: center;
-    border-right: 1px solid black;
-    border-radius: 10%;
-    padding-right: 10px;
 }
 
 .page-container{
     width: calc(100vw - 250px);
 }
 
-
 #btn{
-    margin: 5px;
     height: 50px;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.logout{
+    margin-top: 10px;
+    background-color: rgb(255, 129, 129);
 }

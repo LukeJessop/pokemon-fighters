@@ -1,7 +1,4 @@
-.pokemon-list{
-    display: flex;
-    flex-wrap: wrap;
-}
+
 
 .pokemon-container{
     margin: 10px;
