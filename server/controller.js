@@ -41,4 +41,13 @@ module.exports = {
       res.status(401).send('Incorrect Login')
     }
   },
+  getPokemon: async (req, res) => {
+    const db = req.app.get('db')
+    if(req.session.user){
+      const userId = req.session.user.userId
+      db.pokemonTable.get_pokemon(userId)
+      .then((pokemon) => res.status(200).send(pokemon))
+      .catch(err => console.log(err))
+    }
+  },
 };

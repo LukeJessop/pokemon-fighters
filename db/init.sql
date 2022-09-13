@@ -7,8 +7,7 @@ CREATE TABLE users(
 CREATE TABLE pokemon{
     pokemon_id SERIAL PRIMARY KEY,
     name varchar(255) NOT NULL,
-    frontSprite varchar(255) NOT NULL,
-    backSprite varchar(255) NOT NULL,
+    pokemonUrl varchar(255) NOT NULL,
     health int NOT NULL,
     damage int NOT NULL,
     xp int NOT NULL,

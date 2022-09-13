@@ -1,2 +1,2 @@
 SELECT * FROM pokemon 
-WHERE owner = user_id
+WHERE owner = $1

@@ -39,6 +39,9 @@ app.post('/auth/login', ctrl.login)
 app.post('/auth/register', ctrl.register)
 //middleware ^^
 
-let port = process.env.PORT || Number(SERVER_PORT) + 1;
+app.get('/api/pokemon', ctrl.getPokemon)
 
-app.listen(port, console.log(`You are on Port: ${port} `));
+
+
+//do not use PORT in place of SERVER_PORT because npm for some reason accesses that and uses that port aswell
+app.listen(SERVER_PORT, console.log(`You are on Port: ${SERVER_PORT} `));

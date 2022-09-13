@@ -1,8 +1,10 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
-import Gym from './Gym/Gym'
-import Fighting from './Fighting/Fighting'
-import Hospital from './Hospital/Hospital'
+import Gym from './Components/Gym/Gym'
+import Fighting from './Components/Fighting/Fighting'
+import Hospital from './Components/Hospital/Hospital'
+
+
 
 export default (
     <Routes>
