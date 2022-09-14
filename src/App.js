@@ -3,9 +3,8 @@ import Auth from "./Components/Auth/Auth";
 import {useLocation } from "react-router-dom";
 import componentRouter from "./routes";
 import Navbar from "./Components/Nav/Navbar";
-import {connect} from 'react-redux'
 
-function App(props) {
+function App() {
   const location = useLocation();
   return (
     <div className="master-container font-link">
@@ -19,5 +18,4 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => state
-export default connect(mapStateToProps)(App);
+export default App;
