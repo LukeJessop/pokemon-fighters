@@ -1,27 +1,38 @@
 import axios from "axios";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../redux/reducers";
+import {connect} from 'react-redux'
 
 
-function Auth() {
+function Auth(props) {
   const [loginUser, setLoginUser] = useState("");
   const [loginPass, setLoginPass] = useState("");
+
   const [regUser, setRegUser] = useState("");
   const [regPass, setRegPass] = useState("");
   const [regPassCon, setRegPassCon] = useState("");
-  const navigate = useNavigate()
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  
   const login = () => {
     if (loginUser === "" || loginPass === "") {
       window.alert("Invalid username or password");
       return;
     }
-    axios.post('/auth/login', { loginUser, loginPass }).then((res) =>{
-      console.log('valid! ', res)
+
+    
+    axios
+    .post('/auth/login', { loginUser, loginPass })
+    .then((res) =>{
+      dispatch(updateUser(res.data))
       navigate('/gym')
-    }).catch((err) => console.log('login error ', err));
+    })
+    .catch((err) => console.log('login error ', err.response.data));
   };
-  
+
   const register = () => {
     if (regUser === "" || regPass === "" || regPassCon === "") {
       window.alert("All feilds must be filled");
@@ -31,9 +42,16 @@ function Auth() {
       window.alert("Passwords do not match");
       return;
     }
-    axios.post('/auth/register', { regUser, regPass }).then((res) => {
+
+    axios
+    .post('/auth/register', { regUser, regPass })
+    .then((res) => {
+      dispatch(updateUser(res.data))
       navigate('/fighting')
-    }).catch((err) => console.log('register error ', err));
+    })
+    .catch((err) => console.log('register error ', err.response.data));
+
+
   };
 
   return (
@@ -79,5 +97,7 @@ function Auth() {
     </div>
   );
 }
-
-export default Auth;
+const mapStateToProps = (state) => {
+  return state
+};
+export default connect(mapStateToProps)(Auth);

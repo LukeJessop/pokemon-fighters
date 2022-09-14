@@ -2,23 +2,26 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./App.css";
-import "./Fighting/fighting.css";
-import "./Gym/gym.css";
-import "./Hospital/hospital.css";
-import "./Pokemon/pokemon.css";
-import "./Auth/auth.css";
+import "./Components/Fighting/fighting.css";
+import "./Components/Gym/gym.css";
+import "./Components/Hospital/hospital.css";
+import "./Components/Pokemon/pokemon.css";
+import "./Components/Auth/auth.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Provider } from 'react-redux'
 import {BrowserRouter, HashRouter} from 'react-router-dom';
+import store from './redux/store';
 const Router = process.env.NODE_ENV === 'development' ? HashRouter : BrowserRouter
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>
 );
 
