@@ -1,10 +1,18 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import "./navbar.css";
-function Navbar(props) {
+function Navbar() {
+  const [username, setUsername] = useState('')
+  useEffect(() => {
+    axios //this gets the username to display on the navbar component
+    .get('/api/user')
+    .then((res) => setUsername(res.data.username))
+    .catch((err) => console.log(err.response.data))
+  },[])
   return (
     <div className="button-container">
-      <h3 className="username-text">Welcome {props.username}</h3> {/** we are using redux for the username, i may take redux off completely depending on if i can figure out if it can persist state past a refresh */}
+      <h3 className="username-text">Welcome {username}</h3>
       <Link to="/gym">
         <button className="btn">Gym</button>
       </Link>
@@ -17,7 +25,4 @@ function Navbar(props) {
     </div>
   );
 }
-const mapStateToProps = (state) => {
-  return state;
-};
-export default connect(mapStateToProps)(Navbar);
+export default Navbar;

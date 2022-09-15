@@ -5,7 +5,6 @@ function Pokemon(props) {
   const [facingFront, setFacingFront] = useState(true);
   const [frontSprite, setFrontSprite] = useState("");
   const [backSprite, setBackSprite] = useState("");
-
   useEffect(() => {
     if(props.pokemon.pokemonurl){
       axios

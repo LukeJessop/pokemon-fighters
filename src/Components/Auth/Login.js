@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/reducers";
 
-function Login() {
+function Login(props) {
   const [loginUser, setLoginUser] = useState("");
   const [loginPass, setLoginPass] = useState("");
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ function Login() {
     axios
       .post("/auth/login", { loginUser, loginPass })
       .then((res) => {
-        dispatch(updateUser(res.data));
         navigate("/gym");
       })
       .catch((err) => console.log("login error ", err.response.data));

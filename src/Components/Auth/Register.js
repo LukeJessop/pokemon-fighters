@@ -24,7 +24,6 @@ function Regsiter() {
     axios
       .post("/auth/register", { regUser, regPass })
       .then((res) => {
-        dispatch(updateUser(res.data));
         navigate("/fighting");
       })
       .catch((err) => console.log("register error ", err.response.data));
