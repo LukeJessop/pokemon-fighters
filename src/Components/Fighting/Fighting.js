@@ -22,34 +22,23 @@ function Fighting(){
                 damage: 10,
                 xp: 0,
                 level: 1,
-                owner: "",
+                owner: 0,
               });
             }
             setPokeArr(customPokemonArr);
           }).catch((err) => console.log('useEffect() in Fighting component ', err));
       }, []);
-      
-    const pokemonMap = pokeArr.map((e, i) => {
-      return(
-          <Pokemon pokemon={e} key={i}/>
-      )
-    })
+    
+      const catchPokemon = (pokeId) => { //this function runs when a pokemon is clicked THIS NEEDS A POKEMON ID OR IT WILL NOT WORK
+        const { id, name, health, damage, level, pokemonUrl, xp } = pokeArr[pokeId];
+        axios.post("/api/pokemon", {id, name, health, damage, level, pokemonUrl, xp});
+      };
+  
+  
+  const pokemonMap = pokeArr.map((e, i) => <div key={i} onClick={() => catchPokemon(e.id)}><Pokemon pokemon={e} key={i}/></div>)
     return(
-        <div> 
-          <div>
-            {userPokemon === [] ? 
-            <img src={userPokemon[0].backSprite}/>
-            :null
-            // change this img ^ when you have userPokemon as an array that is taken from the db
-            }
-            <img/>
-            <div>
-              <button>attack</button>
-            </div>
-
-          </div>
-
-            {/* UNDER THIS LINE IS NOT USERS POKEMON */}
+        <div>
+          <h1>Battle!</h1>
             <div className="pokemon-list">
               {pokemonMap}
             </div>
@@ -58,10 +47,7 @@ function Fighting(){
 }
 
 function mapStateToProps(state){
-  return {
-      username: state.username,
-      userId: state.userId
-  }
+  return state
 }
 
 export default connect(mapStateToProps)(Fighting)

@@ -2,13 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
 const session = require("express-session");
-const ctrl = require('./controller')
+const ctrl = require("./controller");
 const app = express();
 const { SERVER_PORT, SESSION_SECRET, DATABASE_URL } = process.env;
 
 app.use(express.json());
-
-
 
 app.use(
   session({
@@ -26,22 +24,18 @@ massive({
   ssl: {
     rejectUnauthorized: false,
   },
-})
-  .then((db) => {
+}).then((db) => {
     app.set("db", db);
     console.log("database up!");
   })
   .catch((err) => console.log(err));
 
+//auth endpoints vv
+app.post("/auth/login", ctrl.login);
+app.post("/auth/register", ctrl.register);
+//auth endpoints ^^
 
-//middleware vv
-app.post('/auth/login', ctrl.login)
-app.post('/auth/register', ctrl.register)
-//middleware ^^
-
-app.get('/api/pokemon', ctrl.getPokemon)
-
-
-
+app.post("/api/pokemon", ctrl.addPokemon); //adds a users pokemon
+app.get("/api/pokemon", ctrl.getPokemon); //gets all of users pokemon
 //do not use PORT in place of SERVER_PORT because npm for some reason accesses that and uses that port aswell
 app.listen(SERVER_PORT, console.log(`You are on Port: ${SERVER_PORT} `));

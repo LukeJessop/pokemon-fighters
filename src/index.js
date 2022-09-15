@@ -4,7 +4,6 @@ import "./index.css";
 import "./App.css";
 import "./Components/Fighting/fighting.css";
 import "./Components/Gym/gym.css";
-import "./Components/Hospital/hospital.css";
 import "./Components/Pokemon/pokemon.css";
 import "./Components/Auth/auth.css";
 import App from "./App";
