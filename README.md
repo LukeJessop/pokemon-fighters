@@ -18,10 +18,6 @@ Gym:
             - Increases per level, health + health * .15
         - Level
             - Subdivided into xp each level increases the xp amount by xp * .50
-        - Evolution
-            - Divided into 100 levels (max level for each Pokemon is 100 and 100 is full evolution)
-        - <button> Train
-            - One click will increase the xp by 2 * Level & decrease health by 1
 Fighting:
-- In the fighting component we will have Pokemon battles where if you win then you get the enemy Pokemon as a new Pokemon, and if you lose then your Pokemon goes to the Medbay component
+- In the fighting component we will have Pokemon battles where if you win then you get the enemy Pokemon as a new Pokemon, and if you lose, the fight ends and you dont get the new pokemon
 - You can attack and your attacks scale based on the pokemons level
