@@ -23,15 +23,16 @@ function Fighting(){
                 xp: 0,
                 level: 1,
                 owner: 0,
+                inBackpack: false
               });
             }
             setPokeArr(customPokemonArr);
           }).catch((err) => console.log('useEffect() in Fighting component ', err));
       }, []);
     
-      const catchPokemon = (pokeId) => { //this function runs when a pokemon is clicked THIS NEEDS A POKEMON ID OR IT WILL NOT WORK
-        const { id, name, health, damage, level, pokemonUrl, xp } = pokeArr[pokeId];
-        axios.post("/api/pokemon", {id, name, health, damage, level, pokemonUrl, xp});
+      const catchPokemon = (pokeId) => { //this function runs when a pokemon is clicked (temporary, we will eventually replace the event trigger with when we win a fight with another pokemon) THIS NEEDS A POKEMON ID OR IT WILL NOT WORK
+        const { id, name, health, damage, level, pokemonUrl, xp, inBackpack } = pokeArr[pokeId];
+        axios.post("/api/pokemon", {id, name, health, damage, level, pokemonUrl, xp, inBackpack});
       };
   
   

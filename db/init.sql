@@ -2,9 +2,9 @@ CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
 	username varchar(255) NOT NULL,
     password varchar(255) NOT NULL
-)
+);
 
-CREATE TABLE pokemon{
+CREATE TABLE pokemon(
     pokemon_id SERIAL PRIMARY KEY,
     name varchar(255) NOT NULL,
     pokemonUrl varchar(255) NOT NULL,
@@ -12,5 +12,6 @@ CREATE TABLE pokemon{
     damage int NOT NULL,
     xp int NOT NULL,
     level int NOT NULL,
-    owner int REFERENCE users (user_id)
-}
+    inBackpack boolean DEFAULT false,
+    owner int REFERENCES users (user_id)
+);

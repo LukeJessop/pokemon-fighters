@@ -45,15 +45,14 @@ module.exports = {
     const db = req.app.get("db");
     if (req.session.user) {
       const userId = req.session.user.userId;
-      db.pokemonTable
-        .get_pokemon(userId)
+      db.pokemonTable.get_pokemon(userId)
         .then((pokemon) => res.status(200).send(pokemon))
         .catch((err) => console.log(err));
     }
   },
   addPokemon: async (req, res) => {
     const db = req.app.get("db");
-    const { name, health, damage, level, pokemonUrl, xp } = req.body;
+    const { name, health, damage, level, pokemonUrl, xp, inBackpack } = req.body;
     const userId = req.session.user.userId;
 
     const [userpokemon] = await db.pokemonTable.create_pokemon([
@@ -63,8 +62,31 @@ module.exports = {
       damage,
       xp,
       level,
+      inBackpack,
       userId,
     ]);
+
     res.status(200).send(userpokemon)
   },
+  getBackpack: async (req, res) => {
+    const db = req.app.get('db')
+    const userId = req.session.user.userId
+    db.pokemonTable.backpack.get_backpack(userId)
+      .then((backpack) => res.status(200).send(backpack))
+      .catch((err) => console.log(err))
+  },
+  transferBackpackPokemon: async (req, res) => {
+    const db = req.app.get('db')
+    const {pokemon_id, inBackpack} = req.body;
+    userId = req.session.user.userId
+    let addOrRemove = true
+    if(inBackpack){
+      addOrRemove = false
+    }
+    const [backpack] = await db.pokemonTable.backpack.update_in_back_pack([addOrRemove, pokemon_id])
+    res.status(200).send(backpack)
+  },
+  deletePokemon: (req, res) => {
+
+  }
 };
