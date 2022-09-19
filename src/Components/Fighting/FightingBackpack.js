@@ -1,6 +1,6 @@
 
 
-function Backpack() {
+function FightingBackpack() {
 
     return(
         <div>
@@ -9,4 +9,4 @@ function Backpack() {
     )
 }
 
-export default Backpack
+export default FightingBackpack

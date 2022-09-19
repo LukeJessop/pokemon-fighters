@@ -35,6 +35,10 @@
     text-align: center;
 }
 
+.pokemon-img{
+    height: 50%;
+}
+
 .pokemon-stats-container{
     color: white;
     width: 100%;

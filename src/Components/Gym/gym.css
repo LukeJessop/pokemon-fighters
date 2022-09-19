@@ -2,20 +2,6 @@
     display: flex;
 }
 
-.backpack-drop-zone{
-    border: 3px solid darkgreen;
-    border-radius: 6px;
-    top: 10px;
-    position: sticky;
-    margin: 10px;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    min-height: 100px;
-    background-color: rgb(0, 178, 77);
-    text-align: center;
-}
-
 .backpack-pokemon{
     display: flex;
     flex-direction: column;
@@ -23,15 +9,17 @@
 }
 
 .backpack-container{
-    padding: 10px;
-    margin: 10px;
+    border: 3px solid darkgreen;
+    text-align: center;
+    margin: 15px;
     top: 0;
     position: sticky;
     background-color: rgb(47, 255, 137);
 }
 
-.backpack-buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.open-backpack-button{
+    height: 50px;
+    width: 200px;
+    margin: 15px;
 }
