@@ -75,16 +75,13 @@ module.exports = {
       .then((backpack) => res.status(200).send(backpack))
       .catch((err) => console.log(err))
   },
-  transferBackpackPokemon: async (req, res) => {
+  transferBackpackPokemon: (req, res) => {
     const db = req.app.get('db')
-    const {pokemon_id, inBackpack} = req.body;
+    const {pokemon_id, inbackpack} = req.body;
     userId = req.session.user.userId
-    let addOrRemove = true
-    if(inBackpack){
-      addOrRemove = false
-    }
-    const [backpack] = await db.pokemonTable.backpack.update_in_back_pack([addOrRemove, pokemon_id])
-    res.status(200).send(backpack)
+    let add = true
+    let remove = false
+    db.pokemonTable.backpack.update_in_back_pack([inbackpack ? remove : add, pokemon_id]).then((backpack) => res.status(200).send(backpack))
   },
   deletePokemon: (req, res) => {
 

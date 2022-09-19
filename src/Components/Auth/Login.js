@@ -7,14 +7,21 @@ import { updateUser } from "../../redux/reducers";
 function Login(props) {
   const [loginUser, setLoginUser] = useState("");
   const [loginPass, setLoginPass] = useState("");
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const clickHandler = () => {
-    if (loginUser === "" || loginPass === "") {
-      window.alert("Invalid username or password");
+    if(loginUser === ""){
+      setIsUsernameValid(false)
       return;
     }
+    if(loginPass === ""){
+      setIsPasswordValid(false)
+      return;
+    }
+
     axios
       .post("/auth/login", { loginUser, loginPass })
       .then((res) => {
@@ -26,11 +33,13 @@ function Login(props) {
   return (
     <div className="form-container ">
       <input
+        style={isUsernameValid ? null : {backgroundColor: '#ff7d7d', border: 'solid #b80202 1px'}}
         className="auth-input"
         placeholder="username"
         onChange={(e) => setLoginUser(e.target.value)}
       ></input>
       <input
+        style={isPasswordValid ? null : {backgroundColor: '#ff7d7d', border: 'solid #b80202 1px'}}
         className="auth-input"
         placeholder="password"
         type="password"
