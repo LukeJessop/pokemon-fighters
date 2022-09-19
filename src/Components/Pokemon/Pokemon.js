@@ -28,7 +28,11 @@ function Pokemon(props) {
       key={props.pokemon.pokemon_id}
       className="pokemon-container"
     >
-      <h2 className="pokemon-name">{props.pokemon.name}</h2>
+      <div className="pokemon-header">
+        <h2 className="pokemon-name">{props.pokemon.name}</h2>
+        {props.children}
+      </div>
+      
       <img className="pokemon-img" src={sprite}/>
       <div className="pokemon-stats-container">
         <h2 className="pokemon-lvl">{props.pokemon.level}</h2>

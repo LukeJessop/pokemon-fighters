@@ -60,16 +60,20 @@ function Gym() {
 
   const ownedPokemonMap = ownedPokemon.map((e, i) => {
     return (
-      <div className="pokemon-div" key={e.pokemon_id} onClick={() => addToBackpack(e)}>
-        <Pokemon pokemon={e} key={e.pokemon_id} />
+      <div className="pokemon-div" key={e.pokemon_id}>
+        <Pokemon pokemon={e} key={e.pokemon_id}>
+          <button className="pokemon-button add" onClick={() => addToBackpack(e)}>+</button>
+        </Pokemon>
       </div>
     );
   });
 
   const backpackMap = backpack.map((e) => {
     return (
-      <div className="pokemon-div" key={e.pokemon_id} onClick={() => updateBackpack(e)}>
-        <Pokemon pokemon={e} key={e.pokemon_id} />
+      <div className="pokemon-div" key={e.pokemon_id}>
+        <Pokemon pokemon={e} key={e.pokemon_id}>
+          <button className="pokemon-button remove" onClick={() => updateBackpack(e)}>X</button>
+        </Pokemon>
       </div>
     );
   });

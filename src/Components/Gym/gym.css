@@ -23,3 +23,19 @@
     width: 200px;
     margin: 15px;
 }
+
+.pokemon-button{
+    height: 100%;
+    width: 20px;
+    border: 1px black dotted;
+}
+.pokemon-button:hover{
+    filter: brightness(70%);
+}
+
+.pokemon-button.add{
+    background-color: rgb(151, 254, 151);
+}
+.pokemon-button.remove{
+    background-color: rgb(255, 130, 130);
+}
