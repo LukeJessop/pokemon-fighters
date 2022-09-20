@@ -82,7 +82,6 @@ function Gym() {
     <div className="gym-container">
       {backpackOpen ? (
         <div className="backpack-container">
-          <h2>Backpack</h2>
           <div>
             <button
               className="open-backpack-button"

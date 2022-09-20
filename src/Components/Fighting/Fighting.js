@@ -14,39 +14,42 @@ function Fighting() {
     axios
       .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1154") //get all pokemon and store them in pokeArr
       .then((res) => {
-        //get pokemon from pokeAPI
-        let customPokemonArr = []; //create new array to push the custom pokemon object to
         let pokemonArr = res.data.results;
         for (let i = 0; i < pokemonArr.length; i++) {
-          customPokemonArr.push({
+          let xp = Math.floor(Math.random() * 10000)
+          let level = xp / 100
+          let health = 3 * level + 100
+          let damage = 3 * level + 10
+
+          setPokeArr((e) => [...e, {
             id: i,
             name: pokemonArr[i].name,
             pokemonUrl: pokemonArr[i].url,
-            health: 100,
-            damage: 10,
-            xp: 0,
-            level: 1,
+            xp: xp,
+            level: Math.floor(level),
+            health: Math.floor(health),
+            damage: Math.floor(damage),
             owner: 0,
             inBackpack: false,
-          });
+          }]);
         }
-        setPokeArr(customPokemonArr);
       })
       .catch((err) => console.log("useEffect() in Fighting component ", err));
+      if(isFighting){
 
-      // setTimeout(() => {
-      //   let randomNum = Math.floor(Math.random() * 1154)
-      //   setEnemyPokemon([pokeArr[randomNum]])
-      // }, 10000)
-
-      const interval = setInterval(() => { //I FOUND THIS CODE ON STACK OVER FLOW INVESTIGATE FURTHER
-        let randomNum = Math.floor(Math.random() * 1154)
-        // setEnemyPokemon([pokeArr[randomNum]])
-        console.log(pokeArr[randomNum])
-      }, 1000);
-    
-      return () => clearInterval(interval);
-  }, []);
+      }else{
+        const interval = setInterval(() => { //This "setInterval()" function runs every millisecond ammount you pass it
+          let randomNum = Math.floor(Math.random() * 1154)
+          setEnemyPokemon(pokeArr[randomNum])
+        }, 5000);
+      
+        return () => clearInterval(interval); 
+      }
+    }, [pokeArr.length > 0, isFighting]);
+//I beleive the problem here was that the axios request took a little too long to get the pokemon
+// by the time th interval loop started the "pokeArr" wasnt filled yet, 
+// so I passed into the dependency array of "useEffect" pokeArr.length > 0 and once that condition result changes from false to true
+//  then useEffect runs again allowing my interval to not break everything!
 
 
   const catchPokemon = (pokeId) => {
@@ -64,14 +67,17 @@ function Fighting() {
     });
   };
   return (
-    <>
+    <div className="fighting-component">
       <div className="fighting-graphic-container">
         {isFighting ? (
           <div>Fighting currently</div>
         ) : (
-          <div>
-            {enemyPokemon}
-          </div>
+          enemyPokemon ? 
+          <div className="fighting-enemy-pokemon">
+            <h1>A Wild</h1>
+            <Pokemon pokemon={enemyPokemon}/>
+            <h1>Has Appeared!</h1>
+          </div> : null
         )}
       </div>
 
@@ -120,12 +126,12 @@ function Fighting() {
               className="fighting-button"
               onClick={() => setIsFighting(true)}
             >
-              Attack
+              Fight
             </button>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
