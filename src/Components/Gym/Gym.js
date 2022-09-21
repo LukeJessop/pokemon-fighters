@@ -82,15 +82,13 @@ function Gym() {
     <div className="gym-container">
       {backpackOpen ? (
         <div className="backpack-container">
-          <h2>Backpack</h2>
-          <div>
+          <h3>{backpackMap.length}/6</h3>
             <button
               className="open-backpack-button"
               onClick={() => setBackpackOpen(false)}
             >
               close Backpack
             </button>
-          </div>
           <div className="backpack-pokemon">
             {backpackMap}
           </div>

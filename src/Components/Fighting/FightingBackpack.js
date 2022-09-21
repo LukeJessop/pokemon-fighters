@@ -9,17 +9,32 @@ function FightingBackpack() {
             .then((res) => setBpPokemon(res.data))
             .catch((err) => console.log(err.response.data))
     }, [])
-    console.log(bpPokemon)
+    const barStyles = {
+        height: 'auto',
+        padding: '5x'
+    }
     const backpackMap = bpPokemon.map((e) => {
         return (
-            <div>
-                {e.name}
-                {e.level}
+            <div >
+                <div className='backpack-stats'>
+                    <div className='backpack-lvl'>
+                        {e.level}
+                    </div>
+                    {e.name}
+                    <div className='backpack-bars'>
+                        <div style={{backgroundColor: 'green', padding: `${barStyles.margin}`}}>
+                            <h6 style={{margin: '0', padding: '3px', color: 'white'}}>{e.health}</h6>
+                        </div>
+                        <div style={{ backgroundColor: 'grey', padding: `${barStyles.margin}`}}>
+                            <div style={{backgroundColor: 'yellow', width: `${ e.xp < 100 ? e.xp : e.xp % 100}%`}} >{e.xp}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     })
     return(
-        <div>
+        <div className='fight-backpack-container'>
             {backpackMap}
         </div>
     )
