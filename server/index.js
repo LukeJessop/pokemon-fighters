@@ -38,6 +38,8 @@ app.get('/api/user', (req, res) => res.status(200).send(req.session.user))
 
 app.post("/api/pokemon", ctrl.addPokemon); //adds a users pokemon
 app.get("/api/pokemon", ctrl.getPokemon); //gets all of users pokemon
+app.put("/api/pokemon", ctrl.updatePokemon) // update pokemon on win
+
 
 app.get("/api/backpack", ctrl.getBackpack) //gets all pokemon in your backpack
 app.put("/api/backpack", ctrl.transferBackpackPokemon); //adds/removes a pokemon from your backpack

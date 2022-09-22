@@ -13,7 +13,7 @@
 
 .pokemon-lvl{
     color: black;
-    margin: 0;
+    margin: 5px;
     width: 50px;
     height: 50px;
     text-align: center;
@@ -44,7 +44,22 @@
     color: white;
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     background-color: #3B4CCA;
     align-items: center;
+}
+
+.pokemon-stat-bars{
+    width: calc(90% - 50px);
+    margin: 5px;
+    font-size: 12px;
+}
+
+.pokemon-health-bar{
+    background-color: red;
+    margin-bottom: 2px;
+}
+
+.pokemon-xp-bar{
+    background-color: rgb(116, 227, 255);
 }

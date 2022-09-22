@@ -58,11 +58,11 @@ function Gym() {
     updateBackpack(element);
   };
 
-  const ownedPokemonMap = ownedPokemon.map((e, i) => {
+  const ownedPokemonMap = ownedPokemon.map((pokemonInfo, i) => {
     return (
-      <div className="pokemon-div" key={e.pokemon_id}>
-        <Pokemon pokemon={e} key={e.pokemon_id}>
-          <button className="pokemon-button add" onClick={() => addToBackpack(e)}>+</button>
+      <div className="pokemon-div" key={pokemonInfo.pokemon_id}>
+        <Pokemon pokemon={pokemonInfo} key={pokemonInfo.pokemon_id}>
+          <button className="pokemon-button add" onClick={() => addToBackpack(pokemonInfo)}>+</button>
         </Pokemon>
       </div>
     );

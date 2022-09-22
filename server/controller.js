@@ -53,27 +53,45 @@ module.exports = {
   addPokemon: async (req, res) => {
     const db = req.app.get("db");
     const { name, health, damage, level, pokemonUrl, xp, inBackpack } = req.body;
-    const userId = req.session.user.userId;
-
-    const [userpokemon] = await db.pokemonTable.create_pokemon([
-      name,
-      pokemonUrl,
-      health,
-      damage,
-      xp,
-      level,
-      inBackpack,
-      userId,
-    ]);
-
-    res.status(200).send(userpokemon)
+    if(req.session.user){
+      const userId = req.session.user.userId;
+      
+      const [userpokemon] = await db.pokemonTable.create_pokemon([
+        name,
+        pokemonUrl,
+        health,
+        damage,
+        xp,
+        level,
+        inBackpack,
+        userId,
+      ]);
+      
+      res.status(200).send(userpokemon)
+    }
+  },
+  updatePokemon: (req, res) => {
+    const db = req.app.get('db')
+    const {xp, level, pokemon_id} = req.body
+    let newStats = {
+      xp: xp + 50,
+      level: xp / 100,
+      health: Math.floor(1.08**level + 100),
+      damage: Math.floor(1.06**(1.3 * level)+ 20),
+    }
+    console.log(newStats)
+    db.pokemonTable.update_pokemon([newStats.xp, newStats.level, newStats.health, newStats.damage, pokemon_id]).then((pokemon) => res.status(200).send(pokemon))
   },
   getBackpack: async (req, res) => {
     const db = req.app.get('db')
-    const userId = req.session.user.userId
-    db.pokemonTable.backpack.get_backpack(userId)
-      .then((backpack) => res.status(200).send(backpack))
-      .catch((err) => console.log(err))
+    if(req.session.user){
+      const userId = req.session.user.userId
+      db.pokemonTable.backpack.get_backpack(userId)
+        .then((backpack) => res.status(200).send(backpack))
+        .catch((err) => console.log(err))
+    }else{
+      res.sendStatus(404)
+    }
   },
   transferBackpackPokemon: (req, res) => {
     const db = req.app.get('db')
@@ -82,8 +100,5 @@ module.exports = {
     let add = true
     let remove = false
     db.pokemonTable.backpack.update_in_back_pack([inbackpack ? remove : add, pokemon_id]).then((backpack) => res.status(200).send(backpack))
-  },
-  deletePokemon: (req, res) => {
-
   }
 };
