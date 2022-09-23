@@ -71,3 +71,17 @@
     width: 30px;
     height: 30px;
 }
+
+.backpack-pokemon-container{
+    cursor: pointer;
+}
+
+.backpack-pokemon-container:hover{
+    filter: brightness(130%);
+    border: solid 1px black;
+}
+
+.fighter-stats{
+    padding-left: 20px;
+    padding-right: 20px;
+}
