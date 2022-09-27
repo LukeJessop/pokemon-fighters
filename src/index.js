@@ -11,7 +11,8 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from 'react-redux'
 import {BrowserRouter, HashRouter} from 'react-router-dom';
 import store from './redux/store';
-const Router = process.env.NODE_ENV === 'development' ? HashRouter : BrowserRouter
+// const Router = process.env.NODE_ENV === 'development' ? HashRouter : BrowserRouter
+const Router = HashRouter
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
