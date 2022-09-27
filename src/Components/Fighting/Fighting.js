@@ -93,6 +93,7 @@ function Fighting() {
       enemyPokemon.health = enemyPokemonHealth //reset health of pokemon 
       winUpdatePokemon()
       catchPokemon()
+      getRandomPokemon()
       setIsFighting(false) //the rest of this function resets to base values
       setHealed(false) 
       setIsPlayersTurn(true)
@@ -136,7 +137,7 @@ function Fighting() {
 
   const winUpdatePokemon = () => {
     axios.put('/api/pokemon', fighterPokemon)
-    .then((res) => setFighterPokemon(res.data))
+    .then((res) => setFighterPokemon(res.data[0]))
     .catch((err) => console.log(err.response.data))
   }
 

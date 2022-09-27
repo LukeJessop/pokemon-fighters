@@ -4,9 +4,12 @@ const massive = require("massive");
 const session = require("express-session");
 const ctrl = require("./controller");
 const app = express();
+const path = require('path')
 const { SERVER_PORT, SESSION_SECRET, DATABASE_URL } = process.env;
 
 app.use(express.json());
+
+app.use(express.static(path.resolve(__dirname, "../build")))
 
 app.use(
   session({
@@ -46,5 +49,12 @@ app.put("/api/backpack", ctrl.transferBackpackPokemon); //adds/removes a pokemon
 
 
 
+
+app.get('/*',function(req,res) {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+const port = process.env.PORT || SERVER_PORT
+
 //do not use PORT in place of SERVER_PORT because npm for some reason accesses that and uses that port aswell
-app.listen(SERVER_PORT, console.log(`You are on Port: ${SERVER_PORT} `));
+app.listen(port, console.log(`You are on Port: ${port} `));

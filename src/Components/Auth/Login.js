@@ -1,54 +1,56 @@
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../redux/reducers";
+import useAuth from "../Hooks/use-auth";
 
-function Login(props) {
-  const [loginUser, setLoginUser] = useState("");
-  const [loginPass, setLoginPass] = useState("");
-  const [isUsernameValid, setIsUsernameValid] = useState(true)
-  const [isPasswordValid, setIsPasswordValid] = useState(true)
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+function Login() {
+  const [user, setUser] = useState("");
+  const [userValid, setUserValid] = useState(false)
+  const [userInputTouched, setUserInputTouched] = useState(false)
 
-  const clickHandler = () => {
-    if(loginUser === ""){
-      setIsUsernameValid(false)
-      return;
+  const [password, setPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [passInputTouched, setPassInputTouched] = useState(false)
+
+
+  const { sendRequest } = useAuth();
+
+  const clickHandler = (event) => {
+    if(!userValid){
+      event.target[0].focus()
+      return
+    }else if(!passwordValid){
+      event.target[1].focus()
+      return
     }
-    if(loginPass === ""){
-      setIsPasswordValid(false)
-      return;
-    }
 
-    axios
-      .post("/auth/login", { loginUser, loginPass })
-      .then((res) => {
-        navigate("/gym");
-      })
-      .catch((err) => console.log("login error ", err.response.data));
+    sendRequest("login", { loginUser: user, loginPass: password });
   };
 
+
+
+  const userInputInvalid = !userValid && userInputTouched
+  const passwordInputInvalid = !passwordValid && passInputTouched
+
   return (
-    <div className="form-container ">
+    <form onSubmit={clickHandler} className="form-container ">
       <input
-        style={isUsernameValid ? null : {backgroundColor: '#ff7d7d', border: 'solid #b80202 1px'}}
-        className="auth-input"
+        className={userInputInvalid ? 'auth-input invalid' : 'auth-input'}
         placeholder="username"
-        onChange={(e) => setLoginUser(e.target.value)}
+        onBlur={() => {!user && setUserValid(false); setUserInputTouched(true)}}
+        onFocus={() => setUserValid(true)}
+        onChange={(e) => setUser(e.target.value)}
       ></input>
       <input
-        style={isPasswordValid ? null : {backgroundColor: '#ff7d7d', border: 'solid #b80202 1px'}}
-        className="auth-input"
+        className={passwordInputInvalid ? 'auth-input invalid' : 'auth-input'}
         placeholder="password"
         type="password"
-        onChange={(e) => setLoginPass(e.target.value)}
+        onBlur={() => {!password && setPasswordValid(false); setPassInputTouched(true)}}
+        onFocus={() => {setPasswordValid(true)}}
+        onChange={(e) => setPassword(e.target.value)}
       ></input>
-      <button className="auth-button" onClick={clickHandler}>
+      <button type='submit' className="auth-button">
         Login
       </button>
-    </div>
+    </form>
   );
 }
 
