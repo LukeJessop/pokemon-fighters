@@ -1,85 +1,75 @@
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../redux/reducers";
+import { useEffect, useState } from "react";
+import useAuth from "../Hooks/use-auth";
 
 function Regsiter() {
-  const [regUser, setRegUser] = useState("");
-  const [regPass, setRegPass] = useState("");
-  const [regPassCon, setRegPassCon] = useState("");
-  const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const [userValid, setUserValid] = useState(false)
+  const [userInputTouched, setUserInputTouched] = useState(false)
 
-  const clickHandler = () => {
-    if (regUser === "" || regPass === "" || regPassCon === "") {
-      window.alert("All feilds must be filled");
-      return;
-    }
-    if (regPass !== regPassCon) {
-      window.alert("Passwords do not match");
-      return;
+  const [password, setPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [passInputTouched, setPassInputTouched] = useState(false)
+  
+  const [passConfirm, setPassConfirm] = useState("");
+  const [passConValid, setPassConValid] = useState(false);
+  const [conInputTouched, setConInputTouched] = useState(false)
+  const { sendRequest } = useAuth();//custom hook!
+
+
+
+  const clickHandler = (event) => {
+    event.preventDefault()
+
+    if(!userValid){
+      event.target[0].focus()
+      return
+    }else if(!passwordValid){
+      event.target[1].focus()
+      return
+    }else if(!passConValid){
+      event.target[2].focus()
+      return
     }
 
-    axios
-      .post("/auth/register", { regUser, regPass })
-      .then((res) => {
-        navigate("/gym");
-        giveStarters()
-      })
-      .catch((err) => console.log("register error ", err.response.data));
+    sendRequest("register", { user, password });
   };
 
-
-  const giveStarters = () =>{
-      axios
-      .get(`https://pokeapi.co/api/v2/pokemon`) //get all pokemon and store them in pokeArr
-      .then((res) => {
-        for (let i = 0; i < res.data.results.length; i++) {
-          let name = res.data.results[i].name
-          if(name === 'squirtle' || name === 'bulbasaur' || name === 'charmander'){
-            let xp = 100
-            let level = xp / 100
-            let health = 1.08**level + 100
-            let damage = 1.06**(1.3 * level)+ 20
-            axios.post("/api/pokemon", {
-              id: i,
-              name: res.data.results[i].name,
-              health: Math.floor(health),
-              damage: Math.floor(damage),
-              level: Math.floor(level),
-              pokemonUrl: res.data.results[i].url,
-              xp: xp,
-              inBackpack: false,
-            });
-          }
-        }
-      }).catch((err) => console.log("useEffect() in Fighting component ", err));
-
-  }
+  const userInputInvalid = !userValid && userInputTouched
+  const passwordInputInvalid = !passwordValid && passInputTouched
+  const confirmInputInvalid = !passConValid && conInputTouched
 
   return (
-    <div className="form-container">
+    <form onSubmit={clickHandler} className="form-container">
       <input
-        className="auth-input"
+        className={userInputInvalid ? 'auth-input invalid' : 'auth-input'}
         placeholder="username"
-        onChange={(e) => setRegUser(e.target.value)}
+        onBlur={() => {!user && setUserValid(false); setUserInputTouched(true)}}
+        onFocus={() => setUserValid(true)}
+        onChange={(e) => setUser(e.target.value)}
       ></input>
       <input
-        className="auth-input"
+        className={passwordInputInvalid ? 'auth-input invalid' : 'auth-input'}
         placeholder="password"
         type="password"
-        onChange={(e) => setRegPass(e.target.value)}
+        onBlur={() => {!password && setPasswordValid(false); setPassInputTouched(true)}}
+        onFocus={() => {setPasswordValid(true)}}
+        onChange={(e) => setPassword(e.target.value)}
       ></input>
       <input
-        className="auth-input"
+        className={confirmInputInvalid ? 'auth-input invalid' : 'auth-input'}
         placeholder="confirm password"
         type="password"
-        onChange={(e) => setRegPassCon(e.target.value)}
+        onBlur={() => {!passConfirm && setPassConValid(false); setConInputTouched(true)}}
+        onFocus={() => {setPassConValid(true)}}
+        onChange={(e) => setPassConfirm(e.target.value)}
       ></input>
-      <button className="auth-button" onClick={clickHandler}>
+      <button
+        type="submit"
+        className="auth-button"
+      >
         Register
       </button>
-    </div>
+    </form>
   );
 }
 

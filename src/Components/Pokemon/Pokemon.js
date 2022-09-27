@@ -9,6 +9,7 @@ function Pokemon(props) {
 
 
   useEffect(() => {
+    setSprite('')
     axios
       .get(pokemon.pokemonurl || pokemon.pokemonUrl)
       .then((res) => {
@@ -24,8 +25,6 @@ function Pokemon(props) {
 
 
   }, [pokemon.pokemonUrl, pokemon.pokemonurl]);
-
-
 
   const backgroundColorDecider = (level) => {
     let R = -0.6 * (level - 100) ** 2 + 255;
@@ -70,7 +69,7 @@ function Pokemon(props) {
                 padding: '1px'
               }}
               >
-              {pokemon.health}{enemyPokemonHealth?'/':null}{enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth}
+              {pokemon.health}{enemyPokemonHealth || fighterPokemonHealth?'/':null}{enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth}
             </div>
           </div>
           <div className="pokemon-xp-bar">
