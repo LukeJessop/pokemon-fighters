@@ -27,7 +27,7 @@ module.exports = {
 
     const [user] = await db.userTable.check_user(loginUser);
     if (!user) {
-      res.status(401).send("Incorrect Login");
+      res.status(401).send("User does not exist");
     }else{
       const authenticated = bcrypt.compareSync(loginPass, user.password);
       if (authenticated) {
@@ -37,7 +37,7 @@ module.exports = {
         };
         res.status(200).send(req.session.user);
       } else {
-        res.status(401).send("Incorrect Login");
+        res.status(401).send("Wrong username or password");
       }
     }
 

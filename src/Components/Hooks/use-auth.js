@@ -1,12 +1,16 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
+  const navigate = useNavigate()
   const sendRequest = (authMethod, cred) => {
     axios
       .post(`/auth/${authMethod}`, cred)
       .then(() => {
         if (authMethod === "register") {
           giveStarters();
+        }else{
+          navigate("/gym");
         }
       })
       .catch((err) => alert(`${authMethod} error ` + err.response.data));
@@ -38,6 +42,7 @@ const useAuth = () => {
             });
           }
         }
+        navigate("/gym");
       })
       .catch((err) => console.log("useEffect() in Fighting component ", err));
   };

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import useAuth from "../Hooks/use-auth";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [userValid, setUserValid] = useState(false);
   const [userInputTouched, setUserInputTouched] = useState(false);
@@ -15,6 +13,7 @@ function Login() {
   const { sendRequest } = useAuth();
 
   const clickHandler = (event) => {
+    event.preventDefault()
     if (!userValid) {
       event.target[0].focus();
       return;
@@ -24,7 +23,6 @@ function Login() {
     }
 
     sendRequest("login", { loginUser: user, loginPass: password });
-    navigate("/gym");
   };
 
   const userInputInvalid = !userValid && userInputTouched;

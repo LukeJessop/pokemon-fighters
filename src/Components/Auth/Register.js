@@ -1,9 +1,7 @@
 import { useState } from "react";
 import useAuth from "../Hooks/use-auth";
-import { useNavigate } from "react-router-dom";
 
 function Regsiter() {
-  const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [userValid, setUserValid] = useState(false);
   const [userInputTouched, setUserInputTouched] = useState(false);
@@ -32,7 +30,6 @@ function Regsiter() {
     }
 
     sendRequest("register", { user, password });
-    navigate("/gym");
   };
 
   const userInputInvalid = !userValid && userInputTouched;

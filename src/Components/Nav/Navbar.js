@@ -7,10 +7,17 @@ function Navbar() {
   
   useEffect(() => {
     axios //this gets the username to display on the navbar component
-    .get('/api/user')
-    .then((res) => setUsername(res.data.username))
-    .catch((err) => console.log(err.response.data))
+      .get('/api/user')
+      .then((res) => setUsername(res.data.username))
+      .catch((err) => console.log(err.response.data + ' error with getting name for nav'))
   },[])
+
+  const logout = () => {
+    axios
+      .delete('/api/user')
+      .then(() => setUsername(''))
+      .catch((err) => console.log(err.response.data + ' error with logging out'))
+  }
 
   return (
     <div className="button-container">
@@ -21,7 +28,7 @@ function Navbar() {
       <Link to="/fighting">
         <button className="btn">Fighting</button>
       </Link>
-      <Link to="/">
+      <Link onClick={logout} to="/">
         <button className="logout btn">Logout</button>
       </Link>
     </div>
