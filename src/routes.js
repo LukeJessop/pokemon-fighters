@@ -7,7 +7,7 @@ import NoAuthPage from './Components//Auth/NoAuthPage'
 export default (
     <Routes>
         <Route exact path='/' element={<NoAuthPage />}/>
-        <Route path='gym' element={<Gym />}/>
-        <Route path='fighting' element={<Fighting />}/>
+        <Route path='/gym' element={<Gym />}/>
+        <Route path='/fighting' element={<Fighting />}/>
     </Routes>
 )
