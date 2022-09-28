@@ -37,6 +37,10 @@ massive({
 app.post("/auth/login", ctrl.login);
 app.post("/auth/register", ctrl.register);
 app.get('/api/user', (req, res) => res.status(200).send(req.session.user))
+app.delete('/api/user', (req, res) => {
+  req.session.destroy()
+  res.sendStatus(200)
+})
 //auth endpoints ^^
 
 app.post("/api/pokemon", ctrl.addPokemon); //adds a users pokemon
