@@ -63,3 +63,19 @@
 .pokemon-xp-bar{
     background-color: rgb(116, 227, 255);
 }
+
+@media screen and (max-width: 760px) {
+    .pokemon-container{
+        margin: 10px;
+        width: 160px;
+        height: 260px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .pokemon-container{
+        margin: 10px;
+        width: 120px;
+        height: 220px;
+        font-size: 12px;
+    }
+}

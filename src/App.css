@@ -16,3 +16,27 @@
     width: calc(100vw - 250px);
     height: 100%;
 }
+
+
+/* 
+all veiwport sizes to do media queries with:
+
+Min-width: 320px (smaller phone viewpoints)
+Min-width: 480px (small devices and most phones)
+Min-width: 768px (most tablets)
+Min-width: 992px (smaller desktop viewpoints)
+Min-width: 1200px (large devices and wide screens) 
+
+*/
+
+@media screen and (max-width: 760px) {
+    .master-container{
+        flex-direction: column;
+    }
+    .side-nav-bar{
+        width: auto;
+    }
+    .page-container{
+        width: 100vw;
+    }
+}
