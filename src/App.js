@@ -3,7 +3,9 @@ import Auth from "./Components/Auth/Auth";
 import {useLocation } from "react-router-dom";
 import componentRouter from "./routes";
 import Navbar from "./Components/Nav/Navbar";
-import { useState } from "react";
+import ReactGA from 'react-ga'
+const TRACKING_ID = "UA-257529921-1"
+ReactGA.initialize(TRACKING_ID)
 
 function App() {
   const location = useLocation();
