@@ -1,4 +1,4 @@
-CREATE TABLE users(
+CREATE TABLE trainer(
     user_id SERIAL PRIMARY KEY,
 	username varchar(255) NOT NULL,
     password varchar(255) NOT NULL
@@ -13,5 +13,5 @@ CREATE TABLE pokemon(
     xp int NOT NULL,
     level int NOT NULL,
     inBackpack boolean DEFAULT false,
-    owner int REFERENCES users (user_id)
+    owner int REFERENCES trainer (user_id)
 );
