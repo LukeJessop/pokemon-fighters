@@ -24,7 +24,7 @@ function Pokemon(props) {
     backgroundColorDecider(pokemon.level);
 
 
-  }, [pokemon.pokemonUrl, pokemon.pokemonurl]);
+  }, [pokemon.pokemonUrl, pokemon.pokemonurl, pokemon.level]);
 
   const backgroundColorDecider = (level) => {
     let R = -0.6 * (level - 100) ** 2 + 255;
@@ -54,7 +54,7 @@ function Pokemon(props) {
         <h2 className="pokemon-name">{pokemon.name}</h2>
       </div>
 
-      <img className="pokemon-img" src={sprite} />
+      <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
       <div className="pokemon-stats-container">
         <h2 className="pokemon-lvl">{pokemon.level}</h2>
         <div className="pokemon-stat-bars">

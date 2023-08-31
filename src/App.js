@@ -1,10 +1,10 @@
-import Auth from "./Components/Auth/Auth";
-import { useLocation } from "react-router-dom";
+// import Auth from "./Components/Auth/Auth";
+// import { useLocation } from "react-router-dom";
+// import useAuth from "./Components/Hooks/use-auth";
+// import axios from "axios";
 import componentRouter from "./routes";
 import Navbar from "./Components/Nav/Navbar";
 import { useEffect } from "react";
-import useAuth from "./Components/Hooks/use-auth";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import fetchStarters from "./redux/backpackApi";
 

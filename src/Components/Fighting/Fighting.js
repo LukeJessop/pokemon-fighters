@@ -52,7 +52,8 @@ function Fighting() {
         
         return () => clearInterval(interval); //cleanup interval function
       }
-    }, [pokeArr.length > 0, isFighting]); // rerun useState if pokeArr.length > 0, and isFighting change state at all
+    }, [pokeArr.length > 0, isFighting]);
+    
 
 //I beleive the problem here was that the axios request took a little too long to get the pokemon
 // by the time th interval loop started the "pokeArr" wasnt filled yet, 

@@ -2,7 +2,6 @@ import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import Gym from './Components/Gym/Gym'
 import Fighting from './Components/Fighting/Fighting'
-import NoAuthPage from './Components//Auth/NoAuthPage'
 
 export default (
     <Routes>

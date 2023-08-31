@@ -1,4 +1,3 @@
-import axios from 'axios'
 function NoAuthPage() {
   return( 
     <div className='no-auth-page'>
