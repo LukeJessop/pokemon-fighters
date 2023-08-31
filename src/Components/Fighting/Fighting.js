@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemon/Pokemon";
 import FightingBackpack from "./FightingBackpack";
