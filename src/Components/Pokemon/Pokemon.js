@@ -21,8 +21,6 @@ function Pokemon(props) {
         }
       }).catch((err) => console.log(err.response.data));
 
-    backgroundColorDecider(pokemon.level);
-
 
   }, [pokemon.pokemonUrl, pokemon.pokemonurl, pokemon.level]);
 
