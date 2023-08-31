@@ -5,7 +5,9 @@
     overflow-y: auto;
 }
 .gym-container{
+    padding: 20px;
     display: flex;
+    flex-direction: column;
 }
 
 .backpack-pokemon{

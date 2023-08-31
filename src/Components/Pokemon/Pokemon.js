@@ -52,7 +52,6 @@ function Pokemon(props) {
     >
       <div className="pokemon-header">
         <h2 className="pokemon-name">{pokemon.name}</h2>
-        {props.children}
       </div>
 
       <img className="pokemon-img" src={sprite} />
@@ -66,7 +65,8 @@ function Pokemon(props) {
                 color: "white",
                 backgroundColor: "green",
                 width: `${(pokemon.health / (enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth)) * 100}%`,
-                padding: '1px'
+                padding: '1px',
+                transition: 'all linear 250ms',
               }}
               >
               {pokemon.health}{enemyPokemonHealth || fighterPokemonHealth?'/':null}{enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth}

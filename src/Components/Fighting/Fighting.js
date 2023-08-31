@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemon/Pokemon";
 import FightingBackpack from "./FightingBackpack";
+import { useDispatch } from "react-redux";
+import {addNewPokemon, levelUp} from '../../redux/backpackSlice'
 
 function Fighting() {
+  const dispatch = useDispatch()
   const [pokeArr, setPokeArr] = useState([]); //array of custom stat pokemon from PokeAPI
 
   const [enemyPokemon, setEnemyPokemon] = useState() //the random pokemon 
@@ -57,7 +60,8 @@ function Fighting() {
 //  then useEffect runs again allowing my interval to not break everything!
 
   const getClickedBackpackPokemon = (e) => { //triggered when a pokemon from your backpack is clicked on
-    setFighterPokemon(e)//sets the fighter pokemon to the arg (arg = the backpack pokemon that is clicked) we lifted from backpack
+    let newObj = {...e}
+    setFighterPokemon(newObj)//sets the fighter pokemon to the arg (arg = the backpack pokemon that is clicked) we lifted from backpack
     setFighterPokemonHealth(e.health) //sets the health of the fighter
   }
 
@@ -91,9 +95,9 @@ function Fighting() {
     }else{
       alert('You won! You have caught this pokemon, and your pokemon increases in skill!')
       enemyPokemon.health = enemyPokemonHealth //reset health of pokemon 
-      winUpdatePokemon()
       catchPokemon()
       getRandomPokemon()
+      dispatch(levelUp(fighterPokemon))
       setIsFighting(false) //the rest of this function resets to base values
       setHealed(false) 
       setIsPlayersTurn(true)
@@ -122,24 +126,8 @@ function Fighting() {
 
   const catchPokemon = () => {
     //this function will run when you win a fight with another pokemon
-    const { id, name, health, damage, level, pokemonUrl, xp, inBackpack } = enemyPokemon;
-    axios.post("/api/pokemon", {
-      id,
-      name,
-      health,
-      damage,
-      level,
-      pokemonUrl,
-      xp,
-      inBackpack,
-    });
+    dispatch(addNewPokemon(enemyPokemon))
   };
-
-  const winUpdatePokemon = () => {
-    axios.put('/api/pokemon', fighterPokemon)
-    .then((res) => setFighterPokemon(res.data[0]))
-    .catch((err) => console.log(err.response.data))
-  }
 
   return (
     <div className="fighting-component">
@@ -167,7 +155,7 @@ function Fighting() {
 
       <div className="fighting-UI-container">
           <div className="fighting-container backpack">
-            <FightingBackpack isFighting={isFighting} fighterPokemonHealth={fighterPokemonHealth} clickedPokemon={getClickedBackpackPokemon} />
+            <FightingBackpack isFighting={isFighting} chosenPokemon={fighterPokemon} fighterPokemonHealth={fighterPokemonHealth} clickedPokemon={getClickedBackpackPokemon} />
           </div>
 
         {isFighting && fighterPokemon && isPlayersTurn ? (

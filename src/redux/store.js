@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import reducer from './reducers';
+import backpackReducer from './backpackSlice';
 
-export default configureStore({reducer});
+export default configureStore({reducer : {
+    backpack: backpackReducer,
+}});

@@ -1,16 +1,16 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function FightingBackpack(props) {
   const [bpPokemon, setBpPokemon] = useState([]);
   const [pokemonSelected, setPokemonSelected] = useState(false);
   const [selectedPokemonObj, setSelectedPokemonObj] = useState({});
+
+  const reduxBp = useSelector(state => state.backpack?.data)
+
   useEffect(() => {
-    axios
-      .get("/api/backpack")
-      .then((res) => setBpPokemon(res.data))
-      .catch((err) => console.log(err.response.data));
-  }, [props.isFighting]);
+      setBpPokemon(reduxBp)
+  }, [reduxBp, bpPokemon]);
 
   const backpackMap = bpPokemon.map((pokemonInfo) => {
     return (

@@ -1,41 +1,43 @@
 import { useState, useEffect } from "react";
 import Pokemon from "../Pokemon/Pokemon";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Gym() {
-  const [ownedPokemon, setOwnedPokemon] = useState([]);
-  const [backpackOpen, setBackpackOpen] = useState(false);
+  // const [ownedPokemon, setOwnedPokemon] = useState([]);
   const [backpack, setBackpack] = useState([]);
+  const ownedPokemon = useSelector((state) => state.backpack.data);
 
+  const noDuplicatesList = [...new Set(ownedPokemon)]
   useEffect(() => {
-    getUserPokemon();
-    getBackpack();
+    // getUserPokemon();
+    // getBackpack();
   }, []);
 
-  const getUserPokemon = () => {
-    axios
-      .get("/api/pokemon")
-      .then((res) => {
-        setOwnedPokemon(res.data);
-      })
-      .catch((err) => console.log(err.response.data));
-  };
+  // const getUserPokemon = () => {
+  //   axios
+  //     .get("/api/pokemon")
+  //     .then((res) => {
+  //       setOwnedPokemon(res.data);
+  //     })
+  //     .catch((err) => console.log(err.response.data));
+  // };
 
-  const getBackpack = () => {
-    axios
-      .get("/api/backpack")
-      .then((res) => {
-        setBackpack(res.data);
-      })
-      .catch((err) => console.log(err.response.data));
-  };
+  // const getBackpack = () => {
+  //   axios
+  //     .get("/api/backpack")
+  //     .then((res) => {
+  //       setBackpack(res.data);
+  //     })
+  //     .catch((err) => console.log(err.response.data));
+  // };
 
   const updateBackpack = (pokemonObj) => {
     const { pokemon_id, inbackpack } = pokemonObj;
     axios
       .put("/api/backpack", { pokemon_id, inbackpack })
       .then(() => {
-        getBackpack();
+        // getBackpack();
       })
 
       .catch((err) => console.log(err.response.data));
@@ -61,49 +63,42 @@ function Gym() {
   const ownedPokemonMap = ownedPokemon.map((pokemonInfo, i) => {
     return (
       <div className="pokemon-div" key={pokemonInfo.pokemon_id}>
-        <Pokemon pokemon={pokemonInfo} key={pokemonInfo.pokemon_id}>
-          <button className="pokemon-button add" onClick={() => addToBackpack(pokemonInfo)}>+</button>
-        </Pokemon>
-      </div>
-    );
-  });
-
-  const backpackMap = backpack.map((e) => {
-    return (
-      <div className="pokemon-div" key={e.pokemon_id}>
-        <Pokemon pokemon={e} key={e.pokemon_id}>
-          <button className="pokemon-button remove" onClick={() => updateBackpack(e)}>X</button>
-        </Pokemon>
+        <Pokemon pokemon={pokemonInfo} key={pokemonInfo.pokemon_id} />
       </div>
     );
   });
 
   return (
     <div className="gym-container">
-      {backpackOpen ? (
-        <div className="backpack-container">
-          <h3>{backpackMap.length}/6</h3>
-            <button
-              className="open-backpack-button"
-              onClick={() => setBackpackOpen(false)}
+      <div>
+        <h2>Catch 'em all!!</h2>
+        <div
+          style={{
+            width: "100%",
+            height: "60px",
+            backgroundColor: "#276f78",
+            position: "relative"
+          }}
+        >
+          <div
+            style={{
+              width: `${(noDuplicatesList.length / 1154) * 100}%`,
+              height: "60px",
+              backgroundColor: "#00ea00"
+            }}
+          >
+            <h2
+              style={{
+                position: "absolute",
+                textAlign: 'center',
+                width: '100%'
+              }}
             >
-              close Backpack
-            </button>
-          <div className="backpack-pokemon">
-            {backpackMap}
+              {noDuplicatesList.length} / 1154
+            </h2>
           </div>
         </div>
-      ) : (
-        <div style={{ margin: "15px" }}>
-          <button
-            className="open-backpack-button"
-            onClick={() => setBackpackOpen(true)}
-          >
-            Open Backpack
-          </button>
-        </div>
-      )}
-
+      </div>
       <div className="pokemon-list">{ownedPokemonMap}</div>
     </div>
   );

@@ -2,21 +2,25 @@ import Auth from "./Components/Auth/Auth";
 import { useLocation } from "react-router-dom";
 import componentRouter from "./routes";
 import Navbar from "./Components/Nav/Navbar";
-import ReactGA from "react-ga";
 import { useEffect } from "react";
-const TRACKING_ID = "UA-257529921-1";
-ReactGA.initialize(TRACKING_ID);
+import useAuth from "./Components/Hooks/use-auth";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import fetchStarters from "./redux/backpackApi";
+
 
 function App() {
-  const location = useLocation();
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
+    dispatch(fetchStarters())
+  }, [dispatch])
 
   return (
     <div className="master-container font-link">
       <div className="side-nav-bar">
-        {location.pathname === "/" ? <Auth /> : <Navbar />}
+        <Navbar/>
+        {/* {location.pathname === "/" ? <Auth /> : <Navbar />} */}
       </div>
       <div className="page-container">{componentRouter}</div>
     </div>
