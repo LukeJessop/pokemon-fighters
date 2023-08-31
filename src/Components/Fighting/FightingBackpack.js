@@ -12,10 +12,11 @@ function FightingBackpack(props) {
       setBpPokemon(reduxBp)
   }, [reduxBp, bpPokemon]);
 
+
   const backpackMap = bpPokemon.map((pokemonInfo) => {
     return (
       <div
-        className="backpack-pokemon-container"
+        className={`backpack-pokemon-container ${ pokemonInfo.id === selectedPokemonObj.id && 'selected-background'}`}
         onClick={() => {
           props.clickedPokemon(pokemonInfo);
           setPokemonSelected(true);

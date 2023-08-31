@@ -22,55 +22,54 @@ function Fighting() {
 
   let isPokeArrEmpty = pokeArr.length > 0;
 
-  const getRandomPokemon = useCallback(() => {
-    let randomNum = Math.floor(Math.random() * 1154); // generate random number out of 1154 (ammount of pokemon from pokeAPI)
-    setEnemyPokemon(pokeArr[randomNum]); // set the enemy pokemon to a random pokemon from the pokeAPI
-    setEnemyPokemonHealth(pokeArr[randomNum].health); // copy's the health of the random pokemon to a new state variable
-  }, [pokeArr]);
+  const getRandomPokemon = () => {
+    let randomNum = Math.floor(Math.random() * 1154);
+    setEnemyPokemon(pokeArr[randomNum]);
+    setEnemyPokemonHealth(pokeArr[randomNum].health);
+  }
 
   useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1154") //get all pokemon and store them in pokeArr
-      .then((res) => {
-        let pokemonArr = res.data.results;
-        for (let i = 0; i < pokemonArr.length; i++) {
-          let xp = Math.floor(Math.random() * 10000);
-          let level = xp / 100;
-          let health = 1.08 ** level + 100;
-          let damage = 1.06 ** (1.3 * level) + 20;
-          setPokeArr((e) => [
-            ...e,
-            {
-              id: i,
-              name: pokemonArr[i].name,
-              pokemonUrl: pokemonArr[i].url,
-              xp: xp,
-              level: Math.floor(level),
-              health: Math.floor(health),
-              damage: Math.floor(damage),
-              owner: 0,
-              inBackpack: false
-            }
-          ]);
-        }
-      })
-      .catch((err) => console.log("useEffect() in Fighting component ", err));
+    if(!pokeArr.length){
+      axios
+        .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1154") //get all pokemon and store them in pokeArr
+        .then((res) => {
+          let pokemonArr = res.data.results;
+          for (let i = 0; i < pokemonArr.length; i++) {
+            let xp = Math.floor(Math.random() * 10000);
+            let level = xp / 100;
+            let health = 1.08 ** level + 100;
+            let damage = 1.06 ** (1.3 * level) + 20;
+            setPokeArr((e) => [
+              ...e,
+              {
+                id: i,
+                name: pokemonArr[i].name,
+                pokemonUrl: pokemonArr[i].url,
+                xp: xp,
+                level: Math.floor(level),
+                health: Math.floor(health),
+                damage: Math.floor(damage),
+                owner: 0,
+                inBackpack: false
+              }
+            ]);
+          }
+        })
+        .catch((err) => console.log("useEffect() in Fighting component ", err));
+    }
 
-    // const getRandomPokemonB =() => {
-    //   let randomNum = Math.floor(Math.random() * 1154) // generate random number out of 1154 (ammount of pokemon from pokeAPI)
-    //   setEnemyPokemon(pokeArr[randomNum]) // set the enemy pokemon to a random pokemon from the pokeAPI
-    //   setEnemyPokemonHealth(pokeArr[randomNum].health) // copy's the health of the random pokemon to a new state variable
-    // }
     if (!isFighting) {
       // if fighting mode is not true
       const interval = setInterval(() => {
         // cycle through the pokeAPI array and display each one every 5 seconds
-        getRandomPokemon();
+        let randomNum = Math.floor(Math.random() * 1154);
+        setEnemyPokemon(pokeArr[randomNum]);
+        setEnemyPokemonHealth(pokeArr[randomNum].health);
       }, 5000);
 
       return () => clearInterval(interval); //cleanup interval function
     }
-  }, [isPokeArrEmpty, isFighting, getRandomPokemon]);
+  }, [isPokeArrEmpty, isFighting, pokeArr]);
 
   const getClickedBackpackPokemon = (e) => {
     //triggered when a pokemon from your backpack is clicked on
