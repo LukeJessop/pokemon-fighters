@@ -24,7 +24,7 @@ function Navbar() {
         <button className="btn">Backpack</button>
       </Link>
       <Link to="/fighting">
-        <button className="btn">Fighting</button>
+        <button className="btn">Fight!</button>
       </Link>
       <div style={{height: '100%', display: 'flex', alignItems: 'end', color: '#f667ff'}}>
         <h3>

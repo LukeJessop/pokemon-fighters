@@ -1,12 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function Pokemon(props) {
+function Pokemon({ pokemon, playerHealth, enemyHealth }) {
   const [sprite, setSprite] = useState("");
   const [isMaxLevel, setIsMaxLevel] = useState(false);
-
-  const { pokemon, fighterPokemonHealth, enemyPokemonHealth } = props;
-
 
   useEffect(() => {
     setSprite('')
@@ -62,12 +59,12 @@ function Pokemon(props) {
               style={{
                 color: "white",
                 backgroundColor: "green",
-                width: `${(pokemon.health / (enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth)) * 100}%`,
+                width: `${(pokemon.health / (enemyHealth ? enemyHealth : playerHealth)) * 100}%`,
                 padding: '1px',
                 transition: 'all linear 250ms',
               }}
               >
-              {pokemon.health}{enemyPokemonHealth || fighterPokemonHealth?'/':null}{enemyPokemonHealth ? enemyPokemonHealth : fighterPokemonHealth}
+              {pokemon.health}{enemyHealth || playerHealth?'/':null}{enemyHealth ? enemyHealth : playerHealth}
             </div>
           </div>
           <div className="pokemon-xp-bar">
