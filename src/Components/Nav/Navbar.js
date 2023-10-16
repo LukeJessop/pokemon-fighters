@@ -28,7 +28,7 @@ function Navbar() {
       </Link>
       <div style={{height: '100%', display: 'flex', alignItems: 'end', color: '#f667ff'}}>
         <h3>
-          Do not refresh your browser!! <br/> <br/> You will lose your progress!!
+          Do not refresh your browser or else you will lose your progress!!
         </h3>
       </div>
     </div>

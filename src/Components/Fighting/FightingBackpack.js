@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { chosenPokemon } from "../../redux/backpackSlice";
 
-function FightingBackpack({ clickedPokemon, isFighting, playerHealth }) {
+function FightingBackpack({ isFighting, playerHealth }) {
   const dispatch = useDispatch();
   const [pokemonSelected, setPokemonSelected] = useState(false);
   const [selectedPokemonObj, setSelectedPokemonObj] = useState({});
@@ -15,13 +15,13 @@ function FightingBackpack({ clickedPokemon, isFighting, playerHealth }) {
     // setBpPokemon(reduxBp)
     if (reduxBp[0]?.name && !autoSelect) {
       //auto selects pokemon when page is rendered
-      clickedPokemon();
+      // clickedPokemon();
       dispatch(chosenPokemon(reduxBp[0]));
       setPokemonSelected(true);
       setSelectedPokemonObj(reduxBp[0]);
       setAutoSelect(true);
     }
-  }, [reduxBp, clickedPokemon, autoSelect, dispatch]);
+  }, [reduxBp, autoSelect, dispatch]);
 
   const backpackMap = reduxBp.map((pokemonInfo) => {
     return (
@@ -30,7 +30,7 @@ function FightingBackpack({ clickedPokemon, isFighting, playerHealth }) {
           pokemonInfo.id === selectedPokemonObj.id && "selected-background"
         }`}
         onClick={() => {
-          clickedPokemon();
+          // clickedPokemon();
           dispatch(chosenPokemon(pokemonInfo));
           setPokemonSelected(true);
           setSelectedPokemonObj(pokemonInfo);

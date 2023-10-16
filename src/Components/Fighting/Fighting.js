@@ -81,9 +81,9 @@ function Fighting() {
     }
   }, [isPokeArrEmpty, isFighting, pokeArr]);
 
-  const getClickedBackpackPokemon = () => {
-    setPlayerHealth(player.health); //sets the health of the player
-  };
+  // const getClickedBackpackPokemon = () => {
+  //   setPlayerHealth(player.health); //sets the health of the player
+  // };
 
   const enemyAttack = () => {
     setTimeout(() => {
@@ -184,7 +184,7 @@ function Fighting() {
             isFighting={isFighting}
             chosenPokemon={player}
             playerHealth={playerHealth}
-            clickedPokemon={getClickedBackpackPokemon}
+            // clickedPokemon={getClickedBackpackPokemon}
           />
         </div>
 

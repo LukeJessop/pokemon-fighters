@@ -40,7 +40,7 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
 
 
   return (
-    <div
+    <li
       key={pokemon.pokemon_id}
       className="pokemon-container"
       style={backgroundColorDecider(pokemon.level)}
@@ -83,7 +83,7 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
           <span className="pokemon-damage">🗡 {pokemon.damage}</span>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 
