@@ -113,7 +113,7 @@ function Fighting() {
       player.health = playerHealth;
       catchPokemon();
       getRandomPokemon();
-      dispatch(levelUp(player));
+      dispatch(levelUp({player, enemy}));
       setIsFighting(false); //the rest of this function resets to base values
       setHealed(false);
       setIsPlayersTurn(true);

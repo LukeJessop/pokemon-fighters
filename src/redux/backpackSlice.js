@@ -13,8 +13,14 @@ const backpackSlice = createSlice({
   initialState,
   reducers: {
     levelUp(state, action) {
-      const { xp, id } = action.payload;
-      const newXp = xp + 50;
+      const { xp,  id } = action.payload.player;
+      const { player, enemy } = action.payload;
+
+
+      const adjustedXP = player.level + enemy.level < 50 ? Math.floor(Math.random() * (75 - 50) + 50) : player.level + enemy.level
+
+
+      const newXp = xp + adjustedXP;
       const newLevel = Math.floor(newXp / 100);
       const newHealth = Math.floor(1.08 ** newLevel + 100);
       const newDamage = Math.floor(1.06 ** (1.3 * newLevel) + 20);
@@ -25,7 +31,8 @@ const backpackSlice = createSlice({
         health: newHealth,
         damage: newDamage
       };
-      console.log(newStats);
+      
+      
       state.data = state.data.map((item) => {
         if (item.id === id) {
           item.xp = newStats.xp;
