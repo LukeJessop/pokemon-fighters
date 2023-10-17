@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemon/Pokemon";
 import FightingBackpack from "./FightingBackpack";
 import { useDispatch } from "react-redux";
 import { addNewPokemon, levelUp } from "../../redux/backpackSlice";
 import { useSelector } from "react-redux";
+import { typeMap } from "./typeAdvantage";
 
 function Fighting() {
   const dispatch = useDispatch();
@@ -36,17 +37,28 @@ function Fighting() {
     setEnemyHealth(pokeArr[randomNum].health);
   };
 
+  const getTypes = useCallback(async (item) => {
+    try {
+      let res = await axios.get(item.url);
+      return res.data.types;
+    } catch (err){
+      console.log(err)
+      return [];
+    }
+  }, []);
+
   useEffect(() => {
     if (!pokeArr.length) {
       axios
         .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1154") //get all pokemon and store them in pokeArr
-        .then((res) => {
+        .then(async (res) => {
           let pokemonArr = res.data.results;
           for (let i = 0; i < pokemonArr.length; i++) {
             let xp = Math.floor(Math.random() * 10000);
             let level = xp / 100;
             let health = 1 * level + 100;
             let damage = 0.7 * level + 10;
+            const types = await getTypes(pokemonArr[i])
             setPokeArr((e) => [
               ...e,
               {
@@ -58,14 +70,15 @@ function Fighting() {
                 health: Math.floor(health),
                 damage: Math.floor(damage),
                 owner: 0,
-                inBackpack: false
+                inBackpack: false,
+                types: types
               }
             ]);
           }
         })
         .catch((err) => console.log("useEffect() in Fighting component ", err));
     }
-  }, [pokeArr]);
+  }, [pokeArr, getTypes]);
 
   useEffect(() => {
     if (!isFighting) {
@@ -85,9 +98,20 @@ function Fighting() {
   //   setPlayerHealth(player.health); //sets the health of the player
   // };
 
+  const calcUserTypeAdvantage = () => {
+    
+    console.log(player.types)
+    console.log(enemy.types)
+  }
+  const calcEnemyTypeAdvantage = () => {
+    console.log(player.types)
+    console.log(enemy.types)
+  }
+
   const enemyAttack = () => {
     setTimeout(() => {
       if (player.health - enemy.damage > 0) {
+        calcEnemyTypeAdvantage()
         player.health -= enemy.damage;
         setIsPlayersTurn(true);
       } else {
@@ -103,6 +127,7 @@ function Fighting() {
 
   const userAttack = () => {
     if (enemy.health - player.damage > 0) {
+      calcUserTypeAdvantage()
       enemy.health -= player.damage; //set enemy.health -= damage
       setIsPlayersTurn(false); //end turn and go to enemy's turn
     } else {
@@ -113,7 +138,7 @@ function Fighting() {
       player.health = playerHealth;
       catchPokemon();
       getRandomPokemon();
-      dispatch(levelUp({player, enemy}));
+      dispatch(levelUp({ player, enemy }));
       setIsFighting(false); //the rest of this function resets to base values
       setHealed(false);
       setIsPlayersTurn(true);
@@ -164,10 +189,10 @@ function Fighting() {
           <>
             <div>
               {player && (
-                <Pokemon pokemon={player} playerHealth={playerHealth} />
+                <Pokemon advantage="" disadvantage="" pokemon={player} playerHealth={playerHealth} />
               )}
             </div>
-            <Pokemon pokemon={enemy} enemyHealth={enemyHealth} />
+            <Pokemon advantage="" disadvantage="" pokemon={enemy} enemyHealth={enemyHealth} />
           </>
         ) : enemy ? (
           <div className="fighting-enemy-pokemon">

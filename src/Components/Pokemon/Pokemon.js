@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { typeMap } from "../Fighting/typeAdvantage";
+import './iconStyle.css'
 
 function Pokemon({ pokemon, playerHealth, enemyHealth }) {
   const [sprite, setSprite] = useState("");
   const [isMaxLevel, setIsMaxLevel] = useState(false);
 
   useEffect(() => {
-    setSprite('')
+    setSprite("");
     axios
       .get(pokemon.pokemonurl || pokemon.pokemonUrl)
       .then((res) => {
@@ -16,9 +18,8 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
         } else {
           setSprite(res.data.sprites.front_default);
         }
-      }).catch((err) => console.log(err.response.data));
-
-
+      })
+      .catch((err) => console.log(err.response.data));
   }, [pokemon.pokemonUrl, pokemon.pokemonurl, pokemon.level]);
 
   const backgroundColorDecider = (level) => {
@@ -27,17 +28,16 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
     let B = -0.6 * (level - 0) ** 2 + 255;
     let styleObj = {
       border: "",
-      background: `rgb(${R}, ${G}, ${B})`,
+      background: `rgb(${R}, ${G}, ${B})`
     };
 
     if (isMaxLevel) {
       styleObj.border = "3px dashed gold";
-      styleObj.background = "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)";
+      styleObj.background =
+        "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)";
     }
     return styleObj;
   };
-
-
 
   return (
     <li
@@ -48,7 +48,28 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
       <div className="pokemon-header">
         <h2 className="pokemon-name">{pokemon.name}</h2>
       </div>
+      <div style={{display: 'flex', width: '100%', gap: '10px', marginLeft: '20px'}}>
+        {pokemon.types.map((item) => {
+          const type = typeMap.filter(
+            (typeMapItem) => typeMapItem.type.toLowerCase() === item.type.name
+          );
+          return (
+            <div>
+              <img
+                style={{
+                  width: "20px",
+                  padding: '4px',
+                  borderRadius: '50%',
+                }}
+                alt="pokemon-type"
+                className={type[0].type.toLowerCase()}
+                src={type[0].icon}
+              />
+            </div>
+          );
+        })}
 
+      </div>
       <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
       <div className="pokemon-stats-container">
         <h2 className="pokemon-lvl">{pokemon.level}</h2>
@@ -59,12 +80,18 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
               style={{
                 color: "white",
                 backgroundColor: "green",
-                width: `${(pokemon.health / (enemyHealth ? enemyHealth : playerHealth)) * 100}%`,
-                padding: '1px',
-                transition: 'all linear 250ms',
+                width: `${
+                  (pokemon.health /
+                    (enemyHealth ? enemyHealth : playerHealth)) *
+                  100
+                }%`,
+                padding: "1px",
+                transition: "all linear 250ms"
               }}
-              >
-              {pokemon.health}{enemyHealth || playerHealth?'/':null}{enemyHealth ? enemyHealth : playerHealth}
+            >
+              {pokemon.health}
+              {enemyHealth || playerHealth ? "/" : null}
+              {enemyHealth ? enemyHealth : playerHealth}
             </div>
           </div>
           <div className="pokemon-xp-bar">
@@ -74,7 +101,7 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
                 color: "black",
                 backgroundColor: "yellow",
                 width: `${pokemon.xp < 100 ? pokemon.xp : pokemon.xp % 100}%`,
-                padding: '1px'
+                padding: "1px"
               }}
             >
               {pokemon.xp < 100 ? pokemon.xp : pokemon.xp % 100}/{100}
