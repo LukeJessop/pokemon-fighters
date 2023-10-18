@@ -1,9 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { typeMap } from "../Fighting/typeAdvantage";
-import './iconStyle.css'
+import "./iconStyle.css";
+import Arrow from "../../Assets/arrow-up-solid.svg";
 
-function Pokemon({ pokemon, playerHealth, enemyHealth }) {
+function Pokemon({
+  advantage,
+  disadvantage,
+  pokemon,
+  playerHealth,
+  enemyHealth
+}) {
   const [sprite, setSprite] = useState("");
   const [isMaxLevel, setIsMaxLevel] = useState(false);
 
@@ -23,9 +30,9 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
   }, [pokemon.pokemonUrl, pokemon.pokemonurl, pokemon.level]);
 
   const backgroundColorDecider = (level) => {
-    let R = -0.6 * (level - 100) ** 2 + 255;
-    let G = -0.102 * (level - 50) ** 2 + 255;
-    let B = -0.6 * (level - 0) ** 2 + 255;
+    let R = -0.0255 * (level - 100) ** 2 + 255;
+    let G = -0.0255 * (level - 50) ** 2 + 255;
+    let B = -0.0255 * (level - 0) ** 2 + 255;
     let styleObj = {
       border: "",
       background: `rgb(${R}, ${G}, ${B})`
@@ -40,7 +47,7 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
   };
 
   return (
-    <li
+    <div
       key={pokemon.pokemon_id}
       className="pokemon-container"
       style={backgroundColorDecider(pokemon.level)}
@@ -48,27 +55,64 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
       <div className="pokemon-header">
         <h2 className="pokemon-name">{pokemon.name}</h2>
       </div>
-      <div style={{display: 'flex', width: '100%', gap: '10px', marginLeft: '20px'}}>
-        {pokemon.types.map((item) => {
-          const type = typeMap.filter(
-            (typeMapItem) => typeMapItem.type.toLowerCase() === item.type.name
-          );
-          return (
-            <div>
-              <img
-                style={{
-                  width: "20px",
-                  padding: '4px',
-                  borderRadius: '50%',
-                }}
-                alt="pokemon-type"
-                className={type[0].type.toLowerCase()}
-                src={type[0].icon}
-              />
-            </div>
-          );
-        })}
-
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          gap: "10px",
+          justifyContent: "space-between"
+        }}
+      >
+        <div style={{ display: "flex", gap: "5px", paddingLeft: "10px" }}>
+          {pokemon.types.map((item) => {
+            const type = typeMap.filter(
+              (typeMapItem) => typeMapItem.type.toLowerCase() === item.type.name
+            );
+            return (
+              <div>
+                <img
+                  style={{
+                    width: "20px",
+                    padding: "4px",
+                    borderRadius: "50%"
+                  }}
+                  alt="pokemon-type"
+                  className={type[0].type.toLowerCase()}
+                  src={type[0].icon}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ paddingRight: "10px" }}>
+          {advantage && (
+            <img
+              style={{
+                width: "20px",
+                height: "20px",
+                backgroundColor: "green",
+                padding: "5px",
+                borderRadius: "50%"
+              }}
+              src={Arrow}
+              alt="adv"
+            />
+          )}
+          {disadvantage && (
+            <img
+              style={{
+                width: "20px",
+                height: "20px",
+                backgroundColor: "red",
+                padding: "5px",
+                borderRadius: "50%",
+                transform: "rotate(180deg)"
+              }}
+              src={Arrow}
+              alt="adv"
+            />
+          )}
+        </div>
       </div>
       <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
       <div className="pokemon-stats-container">
@@ -110,7 +154,7 @@ function Pokemon({ pokemon, playerHealth, enemyHealth }) {
           <span className="pokemon-damage">🗡 {pokemon.damage}</span>
         </div>
       </div>
-    </li>
+    </div>
   );
 }
 

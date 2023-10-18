@@ -13,8 +13,13 @@ function Fighting() {
 
   const [enemy, setEnemy] = useState();
   const [enemyHealth, setEnemyHealth] = useState();
+  const [enemyAdvantage, setEnemyAdvantage] = useState(false);
+  const [enemyDisadvantage, setEnemyDisadvantage] = useState(false);
+
   const [player, setPlayer] = useState();
   const [playerHealth, setPlayerHealth] = useState();
+  const [playerAdvantage, setPlayerAdvantage] = useState(false);
+  const [playerDisadvantage, setPlayerDisadvantage] = useState(false);
 
   const [isFighting, setIsFighting] = useState(false);
   const [isPlayersTurn, setIsPlayersTurn] = useState(true);
@@ -41,8 +46,8 @@ function Fighting() {
     try {
       let res = await axios.get(item.url);
       return res.data.types;
-    } catch (err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       return [];
     }
   }, []);
@@ -58,7 +63,7 @@ function Fighting() {
             let level = xp / 100;
             let health = 1 * level + 100;
             let damage = 0.7 * level + 10;
-            const types = await getTypes(pokemonArr[i])
+            const types = await getTypes(pokemonArr[i]);
             setPokeArr((e) => [
               ...e,
               {
@@ -94,58 +99,180 @@ function Fighting() {
     }
   }, [isPokeArrEmpty, isFighting, pokeArr]);
 
-  // const getClickedBackpackPokemon = () => {
-  //   setPlayerHealth(player.health); //sets the health of the player
-  // };
-
   const calcUserTypeAdvantage = () => {
-    
-    console.log(player.types)
-    console.log(enemy.types)
-  }
+    let advantage = false;
+    let disadvantage = false;
+    let advantagePoints = 0;
+    let disadvantagePoints = 0;
+
+    for (let i = 0; i < player.types.length; i++) {
+      for (let j = 0; j < typeMap.length; j++) {
+        if (player.types[i].type.name === typeMap[j].type.toLowerCase()) {
+          for (let s = 0; s < enemy.types.length; s++) {
+            for (let t = 0; t < typeMap[j].strengths.length; t++) {
+              if (
+                enemy.types[s].type.name.toLowerCase() ===
+                typeMap[j].strengths[t].type.toLowerCase()
+              ) {
+                advantagePoints++;
+              }
+            }
+            for (let t = 0; t < typeMap[j].weaknesses.length; t++) {
+              if (
+                enemy.types[s].type.name.toLowerCase() ===
+                typeMap[j].weaknesses[t].type.toLowerCase()
+              ) {
+                disadvantagePoints++;
+              }
+            }
+          }
+        }
+      }
+    }
+    advantage = advantagePoints > disadvantagePoints;
+    disadvantage = disadvantagePoints > advantagePoints;
+    setPlayerAdvantage(advantage);
+    setPlayerDisadvantage(disadvantage);
+  };
+
+  const playerDamage = () => {
+    if (playerAdvantage) {
+      enemy.health -= player.damage * 2;
+    } else if (playerDisadvantage) {
+      enemy.health -= player.damage / 2;
+    } else {
+      enemy.health -= player.damage;
+    }
+  };
+
   const calcEnemyTypeAdvantage = () => {
-    console.log(player.types)
-    console.log(enemy.types)
-  }
+    let advantage = false;
+    let disadvantage = false;
+    let advantagePoints = 0;
+    let disadvantagePoints = 0;
+
+    for (let i = 0; i < enemy.types.length; i++) {
+      for (let j = 0; j < typeMap.length; j++) {
+        if (enemy.types[i].type.name === typeMap[j].type.toLowerCase()) {
+          for (let s = 0; s < player.types.length; s++) {
+            for (let t = 0; t < typeMap[j].strengths.length; t++) {
+              if (
+                player.types[s].type.name.toLowerCase() ===
+                typeMap[j].strengths[t].type.toLowerCase()
+              ) {
+                advantagePoints++;
+              }
+            }
+            for (let t = 0; t < typeMap[j].weaknesses.length; t++) {
+              if (
+                player.types[s].type.name.toLowerCase() ===
+                typeMap[j].weaknesses[t].type.toLowerCase()
+              ) {
+                disadvantagePoints++;
+              }
+            }
+          }
+        }
+      }
+    }
+    advantage = advantagePoints > disadvantagePoints;
+    disadvantage = disadvantagePoints > advantagePoints;
+    setEnemyAdvantage(advantage);
+    setEnemyDisadvantage(disadvantage);
+  };
+
+  const enemyDamage = () => {
+    if (enemyAdvantage) {
+      player.health -= enemy.damage * 2;
+    } else if (enemyDisadvantage) {
+      player.health -= enemy.damage / 2;
+    } else {
+      player.health -= enemy.damage;
+    }
+  };
 
   const enemyAttack = () => {
-    setTimeout(() => {
-      if (player.health - enemy.damage > 0) {
-        calcEnemyTypeAdvantage()
-        player.health -= enemy.damage;
-        setIsPlayersTurn(true);
-      } else {
-        alert("You lost! Don't worry, your pokemon made it to safety.");
-        player.health = playerHealth;
-        setIsFighting(false);
-        setHealed(false);
-        setIsPlayersTurn(true);
-        getRandomPokemon();
-      }
-    }, 1000);
+    const adv = player.health - enemy.damage * 2;
+    const disAdv = player.health - enemy.damage / 2;
+    const reg = player.health - enemy.damage;
+    let damageType;
+
+    if (enemyAdvantage) {
+      damageType = "adv";
+    } else if (enemyAdvantage) {
+      damageType = "disadv";
+    } else {
+      damageType = "reg";
+    }
+
+    const damageAction = (damageToHealth) => {
+      setTimeout(() => {
+        if (damageToHealth > 0) {
+          enemyDamage();
+          setIsPlayersTurn(true);
+        } else {
+          alert("You lost! Don't worry, your pokemon made it to safety.");
+          player.health = playerHealth;
+          setIsFighting(false);
+          setHealed(false);
+          setIsPlayersTurn(true);
+          getRandomPokemon();
+        }
+      }, 1000);
+    };
+
+    if (damageType === "adv") {
+      damageAction(adv);
+    } else if (damageType === "disAdv") {
+      damageAction(disAdv);
+    } else {
+      damageAction(reg);
+    }
   };
 
   const userAttack = () => {
-    if (enemy.health - player.damage > 0) {
-      calcUserTypeAdvantage()
-      enemy.health -= player.damage; //set enemy.health -= damage
-      setIsPlayersTurn(false); //end turn and go to enemy's turn
+    const adv = enemy.health - player.damage * 2;
+    const disAdv = enemy.health - player.damage / 2;
+    const reg = enemy.health - player.damage;
+    let damageType;
+
+    if (playerAdvantage) {
+      damageType = "adv";
+    } else if (playerDisadvantage) {
+      damageType = "disadv";
     } else {
-      alert(
-        "You won! You have caught this pokemon, and your pokemon increases in skill!"
-      );
-      enemy.health = enemyHealth; //reset health of pokemon
-      player.health = playerHealth;
-      catchPokemon();
-      getRandomPokemon();
-      dispatch(levelUp({ player, enemy }));
-      setIsFighting(false); //the rest of this function resets to base values
-      setHealed(false);
-      setIsPlayersTurn(true);
-      setHealthPack((prev) => (prev += 1));
-      return; // end function
+      damageType = "reg";
     }
-    enemyAttack();
+
+    const damageAction = (damageToHealth) => {
+      if (damageToHealth > 0) {
+        playerDamage();
+        setIsPlayersTurn(false); //end turn and go to enemy's turn
+      } else {
+        alert(
+          "You won! You have caught this pokemon, and your pokemon increases in skill!"
+        );
+        enemy.health = enemyHealth; //reset health of pokemon
+        player.health = playerHealth;
+        catchPokemon();
+        getRandomPokemon();
+        dispatch(levelUp({ player, enemy }));
+        setIsFighting(false); //the rest of this function resets to base values
+        setHealed(false);
+        setIsPlayersTurn(true);
+        setHealthPack((prev) => (prev += 1));
+        return; // end function
+      }
+      enemyAttack();
+    };
+
+    if (damageType === "adv") {
+      damageAction(adv);
+    } else if (damageType === "disAdv") {
+      damageAction(disAdv);
+    } else {
+      damageAction(reg);
+    }
   };
 
   const heal = () => {
@@ -155,7 +282,7 @@ function Fighting() {
     //after clicked end turn and do enemy attack
 
     if (healthPack > 0 && !healed) {
-      setHealed(true);
+      
       if (player.health === playerHealth) {
         alert("You have full health already!");
       } else if (player.health + playerHealth / 2 > playerHealth) {
@@ -164,6 +291,9 @@ function Fighting() {
       } else {
         player.health += playerHealth / 2;
         setHealthPack((prev) => prev-- >= 0 && prev--);
+      }
+      if(healthPack === 0 ){
+        setHealed(true);
       }
     }
   };
@@ -189,10 +319,20 @@ function Fighting() {
           <>
             <div>
               {player && (
-                <Pokemon advantage="" disadvantage="" pokemon={player} playerHealth={playerHealth} />
+                <Pokemon
+                  advantage={playerAdvantage}
+                  disadvantage={playerDisadvantage}
+                  pokemon={player}
+                  playerHealth={playerHealth}
+                />
               )}
             </div>
-            <Pokemon advantage="" disadvantage="" pokemon={enemy} enemyHealth={enemyHealth} />
+            <Pokemon
+              advantage={enemyAdvantage}
+              disadvantage={enemyDisadvantage}
+              pokemon={enemy}
+              enemyHealth={enemyHealth}
+            />
           </>
         ) : enemy ? (
           <div className="fighting-enemy-pokemon">
@@ -255,7 +395,11 @@ function Fighting() {
             enemy && (
               <button
                 className="fighting-button"
-                onClick={() => setIsFighting(true)}
+                onClick={() => {
+                  setIsFighting(true);
+                  calcUserTypeAdvantage();
+                  calcEnemyTypeAdvantage();
+                }}
               >
                 Fight
               </button>

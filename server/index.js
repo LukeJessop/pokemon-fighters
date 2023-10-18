@@ -28,10 +28,10 @@ massive({
     rejectUnauthorized: false,
   },
 }).then((db) => {
-    app.set("db", db);
-    console.log("database up!");
-  })
-  .catch((err) => console.log(err));
+  app.set("db", db);
+  console.log("database up!");
+})
+.catch((err) => console.log(err));
 
 //auth endpoints vv
 app.post("/auth/login", ctrl.login);
