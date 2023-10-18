@@ -45,7 +45,7 @@ function Gym() {
         >
           <div
             style={{
-              width: `${(noDuplicatesList.length / 1154) * 100}%`,
+              width: `${(noDuplicatesList.length / 100) * 100}%`,
               height: "60px",
               backgroundColor: "#00ea00"
             }}
@@ -58,7 +58,7 @@ function Gym() {
                 color: "white"
               }}
             >
-              You have {noDuplicatesList.length} out of 1154 Pokemon
+              You have {noDuplicatesList.length} out of 100 Pokemon
             </h2>
           </div>
         </div>

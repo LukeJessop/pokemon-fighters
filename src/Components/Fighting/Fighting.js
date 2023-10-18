@@ -41,7 +41,7 @@ function Fighting() {
   }, [chosenPokemon]);
 
   const getRandomPokemon = () => {
-    let randomNum = Math.floor(Math.random() * 1154);
+    let randomNum = Math.floor(Math.random() * 100);
     setEnemy(pokeArr[randomNum]);
     setEnemyHealth(pokeArr[randomNum].health);
   };
@@ -94,7 +94,7 @@ function Fighting() {
       // if fighting mode is not true
       const interval = setInterval(() => {
         // cycle through the pokeAPI array and display each one every 5 seconds
-        let randomNum = Math.floor(Math.random() * 1154);
+        let randomNum = Math.floor(Math.random() * 100);
         setEnemy(pokeArr[randomNum]);
         setEnemyHealth(pokeArr[randomNum].health);
       }, 5000);
@@ -394,19 +394,29 @@ function Fighting() {
             >
               <img alt="healing" src={Shoe} />
             </button>
+          ) : enemy ? (
+            <button
+              className="fighting-button fight-or-flight"
+              onClick={() => {
+                setIsFighting(true);
+                calcUserTypeAdvantage();
+                calcEnemyTypeAdvantage();
+              }}
+            >
+              <img alt="healing" src={Glove} />
+            </button>
           ) : (
-            enemy && (
-              <button
-                className="fighting-button fight-or-flight"
-                onClick={() => {
-                  setIsFighting(true);
-                  calcUserTypeAdvantage();
-                  calcEnemyTypeAdvantage();
-                }}
-              >
-                <img alt="healing" src={Glove} />
-              </button>
-            )
+            <button
+              disabled
+              className="fighting-button fight-or-flight"
+              onClick={() => {
+                setIsFighting(true);
+                calcUserTypeAdvantage();
+                calcEnemyTypeAdvantage();
+              }}
+            >
+              <img alt="healing" src={Glove} />
+            </button>
           )}
         </div>
       </div>

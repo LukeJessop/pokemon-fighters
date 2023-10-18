@@ -84,6 +84,9 @@
     cursor: pointer;
 }
 
+.fight-or-flight:disabled{
+    background-color: rgb(106, 106, 0);
+}
 .fight-or-flight{
     cursor: pointer;
     background-color: yellow;
