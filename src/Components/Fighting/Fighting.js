@@ -59,7 +59,7 @@ function Fighting() {
   useEffect(() => {
     if (!pokeArr.length) {
       axios
-        .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1154") //get all pokemon and store them in pokeArr
+        .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=100") //get all pokemon and store them in pokeArr
         .then(async (res) => {
           let pokemonArr = res.data.results;
           for (let i = 0; i < pokemonArr.length; i++) {
