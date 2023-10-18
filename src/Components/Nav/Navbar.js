@@ -68,7 +68,7 @@ function Navbar() {
                   left: "100%",
                   backgroundColor: "white",
                   color: "black",
-                  zIndex: "1",
+                  zIndex: "999",
                   visibility:
                     isInfoOpen && infoIndex === index ? "visible" : "hidden",
                   display: "flex",

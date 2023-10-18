@@ -6,6 +6,7 @@ import UpArrow from "../../Assets/arrow-up-solid.svg";
 import DownArrow from "../../Assets/arrow-down-solid.svg";
 
 function Pokemon({
+  noImg,
   advantage,
   disadvantage,
   pokemon,
@@ -57,7 +58,7 @@ function Pokemon({
         <h2 className="pokemon-name">{pokemon.name}</h2>
       </div>
       {/* <span className="pokemon-damage">🗡Damage: {pokemon.damage}</span> */}
-      <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
+      {!noImg && <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />}
       <div
         style={{
           display: "flex",

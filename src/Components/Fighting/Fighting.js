@@ -6,6 +6,10 @@ import { useDispatch } from "react-redux";
 import { addNewPokemon, levelUp } from "../../redux/backpackSlice";
 import { useSelector } from "react-redux";
 import { typeMap } from "./typeAdvantage";
+import Sword from "../../Assets/attack-icon.svg";
+import Heal from "../../Assets/heal.svg";
+import Shoe from "../../Assets/shoe.svg";
+import Glove from "../../Assets/boxing-glove.svg";
 
 function Fighting() {
   const dispatch = useDispatch();
@@ -282,7 +286,6 @@ function Fighting() {
     //after clicked end turn and do enemy attack
 
     if (healthPack > 0 && !healed) {
-      
       if (player.health === playerHealth) {
         alert("You have full health already!");
       } else if (player.health + playerHealth / 2 > playerHealth) {
@@ -292,7 +295,7 @@ function Fighting() {
         player.health += playerHealth / 2;
         setHealthPack((prev) => prev-- >= 0 && prev--);
       }
-      if(healthPack === 0 ){
+      if (healthPack === 0) {
         setHealed(true);
       }
     }
@@ -349,59 +352,59 @@ function Fighting() {
             isFighting={isFighting}
             chosenPokemon={player}
             playerHealth={playerHealth}
+            healthPack={healthPack}
             // clickedPokemon={getClickedBackpackPokemon}
           />
         </div>
 
         <div className="fighting-container buttons">
           {isFighting && player && isPlayersTurn ? (
-            <>
-              <button className="fighting-button" onClick={userAttack}>
-                Attack
+            <div className="attack-heal-container">
+              <button
+                className="fighting-button attack-button"
+                onClick={userAttack}
+              >
+                <img alt="attacking" src={Sword} />
               </button>
               <button
-                title="Heal 50%"
-                className="fighting-button"
+                className="fighting-button heal-button"
                 onClick={!healed && heal}
               >
-                Use Health Pack: {healthPack}
+                <img alt="healing" src={Heal} />
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <button disabled className="fighting-button">
-                Attack
+            <div className="attack-heal-container">
+              <button disabled className="fighting-button attack-button">
+                <img alt="attacking" src={Sword} />
               </button>
-              <button disabled className="fighting-button">
-                Use Health Pack: {healthPack}
+              <button disabled className="fighting-button heal-button">
+                <img alt="healing" src={Heal} />
               </button>
-            </>
+            </div>
           )}
-        </div>
-
-        <div className="fighting-container fight-or-flight">
           {isFighting ? (
             <button
-              className="fighting-button"
+              className="fighting-button fight-or-flight"
               onClick={() => {
                 setIsFighting(false);
                 getRandomPokemon();
                 runAway();
               }}
             >
-              Run Away
+              <img alt="healing" src={Shoe} />
             </button>
           ) : (
             enemy && (
               <button
-                className="fighting-button"
+                className="fighting-button fight-or-flight"
                 onClick={() => {
                   setIsFighting(true);
                   calcUserTypeAdvantage();
                   calcEnemyTypeAdvantage();
                 }}
               >
-                Fight
+                <img alt="healing" src={Glove} />
               </button>
             )
           )}

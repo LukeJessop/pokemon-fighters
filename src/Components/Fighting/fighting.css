@@ -11,6 +11,7 @@
 }
 
 
+
 .fighting-enemy-pokemon{
     position: absolute;
     display: flex;
@@ -24,23 +25,73 @@
 }
 
 .fighting-UI-container{
-    border-top: 3px solid black;
     display: flex;
-    width: 100%;
-    justify-content: center;
+    justify-content: space-between;
     height: 25vh;
 }
 
 .fighting-container{
-    width: calc(100% /3);
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
+.buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.backpack {
+    width: 100%;
+}
+
+.attack-heal-container{
+    display: flex;
+    height: 80%;
+}
+
 .fighting-button{
-    height: 100%;
     font-size: 30px;
+}
+.fighting-button img {
+    width: 50%;
+    height: 50%;
+}
+.attack-button:disabled {
+    background-color: #761e1e;
+
+}
+.attack-button {
+    background-color: #ff3333;
+    width: 100px;
+    height: 100px;
+    transform: translate(40px, 60px);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+.heal-button:disabled {
+    background-color: #0e5536;
+    
+}
+.heal-button {
+    transform: translateY(-5px);
+    background-color: #1c9963;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.fight-or-flight{
+    cursor: pointer;
+    background-color: yellow;
+    transform: translate(-20px, 20px);
+    border: none;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
 }
 
 
@@ -74,11 +125,11 @@
 
 .backpack-pokemon-container{
     cursor: pointer;
+    min-width: 25%;
 }
 
 .backpack-pokemon-container:hover{
-    filter: brightness(130%);
-    border: solid 1px black;
+    filter: brightness(110%);
 }
 
 .fighter-stats{
@@ -87,5 +138,5 @@
 }
 
 .selected-background{
-    background-color: gold;
+    backdrop-filter: brightness(130%);
 }
