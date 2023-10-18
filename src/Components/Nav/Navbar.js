@@ -10,7 +10,7 @@ function Navbar() {
     setInfoIndex(index);
   };
   return (
-    <div className="button-container" style={{ padding: "18px" }}>
+    <div className="button-container" style={{ padding: "18px"}}>
       <h1 className="username-text">Pokemon Fighters</h1>
       <Link to="/">
         <button className="btn">Backpack</button>

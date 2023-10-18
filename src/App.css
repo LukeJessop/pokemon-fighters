@@ -11,6 +11,8 @@
     min-height: auto;
     background-color: rgb(63, 63, 255);
     box-shadow: 1px 1px 10px;
+    position: sticky;
+    top: 0px;
 }
 
 .page-container{
@@ -31,9 +33,6 @@ Min-width: 1200px (large devices and wide screens)
 */
 
 @media screen and (max-width: 760px) {
-    .master-container{
-        flex-direction: column;
-    }
     .side-nav-bar{
         width: auto;
     }

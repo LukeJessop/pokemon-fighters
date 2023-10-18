@@ -59,12 +59,14 @@
 .pokemon-health-bar{
     border-radius: 16px;
     background-color: #ff3333;
+    overflow: hidden;
 }
 
 .pokemon-xp-bar{
     border-radius: 16px;
     background-color: #3d3d3d9c;
-    /* background-color: #74e3ff; */
+    overflow: hidden;
+    background-color: #74e3ff;
 }
 
 @media screen and (max-width: 760px) {

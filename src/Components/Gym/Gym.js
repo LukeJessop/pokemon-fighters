@@ -2,13 +2,12 @@ import Pokemon from "../Pokemon/Pokemon";
 import { useSelector } from "react-redux";
 
 function Gym() {
-  // const [ownedPokemon, setOwnedPokemon] = useState([]);
-  // const [backpack, setBackpack] = useState([]);
   const ownedPokemon = useSelector((state) => state.backpack.data);
 
   const uniqueObjects = {};
   const noDuplicatesList = [];
   const duplicatesList = [];
+  const maxLevels = [];
 
   for (const obj of ownedPokemon) {
     const name = obj.name;
@@ -19,29 +18,29 @@ function Gym() {
     } else {
       duplicatesList.push(obj);
     }
+    if (obj.level >= 100) {
+      maxLevels.push(obj);
+    }
   }
-
   const ownedPokemonMap = ownedPokemon.map((pokemonInfo, i) => {
-    return (
-        <Pokemon pokemon={pokemonInfo} key={pokemonInfo.pokemon_id} />
-    );
+    return <Pokemon pokemon={pokemonInfo} key={pokemonInfo.pokemon_id} />;
   });
+
 
   return (
     <div className="gym-container">
       <div>
-        <div style={{display: 'flex', gap: '20px'}}>
+        <div>
           <h2>Catch 'em all!!</h2>
-          <h2>
-            Duplicates: {duplicatesList.length}
-          </h2>
         </div>
         <div
           style={{
             width: "100%",
             height: "60px",
             backgroundColor: "#276f78",
-            position: "relative"
+            position: "relative",
+            borderRadius: "30px",
+            overflow: "hidden"
           }}
         >
           <div
@@ -55,15 +54,27 @@ function Gym() {
               style={{
                 position: "absolute",
                 textAlign: "center",
-                width: "100%"
+                width: "100%",
+                color: "white"
               }}
             >
-              {noDuplicatesList.length} / 1154
+              You have {noDuplicatesList.length} out of 1154 Pokemon
             </h2>
           </div>
         </div>
+        <p>Total: {ownedPokemon.length}</p>
+        <p>Shiney Pokemon: {maxLevels.length}</p>
+        {/* <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <p style={{margin: '0', padding: '0'}}>Sort By:</p>
+          <div>
+            <button>Level</button>
+            <button>Type</button>
+            <button>Name A - Z</button>
+            <button>Name Z - A</button>
+          </div>
+        </div> */}
       </div>
-      <ol className="pokemon-list">{ownedPokemonMap}</ol>
+      <div className="pokemon-list">{ownedPokemonMap}</div>
     </div>
   );
 }
