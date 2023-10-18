@@ -2,8 +2,8 @@
 
 .pokemon-container{
     margin: 10px;
-    width: 230px;
     border-radius: 15px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -12,11 +12,11 @@
 
 .pokemon-lvl{
     color: black;
-    margin: 5px;
+    margin: 0px;
     width: 50px;
     height: 50px;
     text-align: center;
-    background-color: white;
+    background-color: #3b4cca51;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -43,23 +43,28 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #3B4CCA;
     align-items: center;
+    padding-top: 10px;
 }
 
 .pokemon-stat-bars{
-    width: calc(90% - 50px);
-    margin: 5px;
+    width: 100%;
+    padding: 5px;
     font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .pokemon-health-bar{
-    background-color: red;
-    margin-bottom: 2px;
+    border-radius: 16px;
+    background-color: #ff3333;
 }
 
 .pokemon-xp-bar{
-    background-color: rgb(116, 227, 255);
+    border-radius: 16px;
+    background-color: #3d3d3d9c;
+    /* background-color: #74e3ff; */
 }
 
 @media screen and (max-width: 760px) {

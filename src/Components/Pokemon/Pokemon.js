@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { typeMap } from "../Fighting/typeAdvantage";
 import "./iconStyle.css";
-import Arrow from "../../Assets/arrow-up-solid.svg";
+import UpArrow from "../../Assets/arrow-up-solid.svg";
+import DownArrow from "../../Assets/arrow-down-solid.svg";
 
 function Pokemon({
   advantage,
@@ -55,6 +56,8 @@ function Pokemon({
       <div className="pokemon-header">
         <h2 className="pokemon-name">{pokemon.name}</h2>
       </div>
+      {/* <span className="pokemon-damage">🗡Damage: {pokemon.damage}</span> */}
+      <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
       <div
         style={{
           display: "flex",
@@ -74,7 +77,8 @@ function Pokemon({
                   style={{
                     width: "20px",
                     padding: "4px",
-                    borderRadius: "50%"
+                    borderRadius: "50%",
+                    boxShadow: "0px 0px 3px #3d3d3d9c"
                   }}
                   alt="pokemon-type"
                   className={type[0].type.toLowerCase()}
@@ -90,11 +94,11 @@ function Pokemon({
               style={{
                 width: "20px",
                 height: "20px",
-                backgroundColor: "green",
+                backgroundColor: "#1c9963",
                 padding: "5px",
                 borderRadius: "50%"
               }}
-              src={Arrow}
+              src={UpArrow}
               alt="adv"
             />
           )}
@@ -103,20 +107,22 @@ function Pokemon({
               style={{
                 width: "20px",
                 height: "20px",
-                backgroundColor: "red",
+                backgroundColor: "#ff3333",
                 padding: "5px",
                 borderRadius: "50%",
                 transform: "rotate(180deg)"
               }}
-              src={Arrow}
+              src={DownArrow}
               alt="adv"
             />
           )}
         </div>
       </div>
-      <img className="pokemon-img" alt="pokemon-sprite" src={sprite} />
+
       <div className="pokemon-stats-container">
-        <h2 className="pokemon-lvl">{pokemon.level}</h2>
+        <div style={{ height: "100%" }}>
+          <div className="pokemon-lvl">{pokemon.level}</div>
+        </div>
         <div className="pokemon-stat-bars">
           <div className="pokemon-health-bar">
             <div
@@ -129,8 +135,9 @@ function Pokemon({
                     (enemyHealth ? enemyHealth : playerHealth)) *
                   100
                 }%`,
-                padding: "1px",
-                transition: "all linear 250ms"
+                padding: "3px 2px 3px 2px",
+                transition: "all linear 250ms",
+                borderRadius: "16px"
               }}
             >
               {pokemon.health}
@@ -145,13 +152,14 @@ function Pokemon({
                 color: "black",
                 backgroundColor: "yellow",
                 width: `${pokemon.xp < 100 ? pokemon.xp : pokemon.xp % 100}%`,
-                padding: "1px"
+                padding: "3px 2px 3px 2px",
+                transition: "all linear 250ms",
+                borderRadius: "16px"
               }}
             >
               {pokemon.xp < 100 ? pokemon.xp : pokemon.xp % 100}/{100}
             </div>
           </div>
-          <span className="pokemon-damage">🗡 {pokemon.damage}</span>
         </div>
       </div>
     </div>
